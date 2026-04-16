@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>хімічна еволюція • зоряний нуклеосинтез</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    article {
+      max-width: 90%;
+      width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 4rem 5rem 4rem;
+    }
+    
+    @media (min-width: 1600px) {
+      article {
+        max-width: 85%;
+        width: 1500px;
+        padding: 3.5rem 5rem 6rem 5rem;
+      }
+    }
+    
+    @media (min-width: 1920px) {
+      article {
+        max-width: 80%;
+        width: 1600px;
+      }
+    }
+    
+    @media (min-width: 1400px) {
+      .content-columns {
+        column-count: 2;
+        column-gap: 3.5rem;
+        column-rule: 1px solid var(--rule);
+      }
+      
+      .content-columns p {
+        break-inside: avoid;
+      }
+      
+      h2, h3 {
+        column-span: all;
+      }
+      
+      .conclusion-box,
+      .population-table,
+      .summary-timeline,
+      table {
+        column-span: all;
+      }
+    }
+    
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1rem;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .nav-button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 1rem;
+      border-radius: 0;
+      background: transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+    }
+    
+    .nav-button:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .chapter-marker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+    
+    /* conclusion box — final statement */
+    .conclusion-box {
+      margin: 3rem 0;
+      padding: 2.5rem;
+      background: rgba(139, 58, 58, 0.03);
+      border: 1px solid var(--accent);
+      border-left-width: 4px;
+    }
+    
+    .conclusion-box h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      text-transform: lowercase;
+      letter-spacing: 0.08em;
+      margin: 0 0 1.5rem 0;
+      color: var(--accent);
+    }
+    
+    .conclusion-box p {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      margin-bottom: 0;
+    }
+    
+    .conclusion-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* population table styling */
+    .population-table {
+      margin: 3rem 0;
+    }
+    
+    .population-table h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* summary timeline */
+    .summary-timeline {
+      margin: 3rem 0;
+      padding: 2rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    
+    .summary-timeline h3 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 2rem 0;
+      text-align: center;
+      color: var(--ink-light);
+    }
+    
+    .timeline-canvas {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    /* tables */
+    table {
+      width: 100%;
+      margin: 2.5rem 0;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      font-family: 'IBM Plex Mono', 'IBM Plex Sans', sans-serif;
+      text-align: left;
+    }
+    
+    th {
+      font-weight: 500;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      padding: 0.75rem 1rem 0.5rem 1rem;
+      border-bottom: 1px solid var(--ink);
+    }
+    
+    td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: rgba(0,0,0,0.01);
+    }
+    
+    /* elemental origin table — special styling */
+    .origin-table th:first-child,
+    .origin-table td:first-child {
+      font-weight: 500;
+    }
+    
+    sup, sub {
+      font-size: 0.7rem;
+      line-height: 0;
+    }
+    
+    .footer-nav {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+    
+    h1 {
+      max-width: none;
+      margin-bottom: 1rem;
+    }
+    
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h3 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+    
+    h2 + p::first-letter {
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.08em;
+      font-weight: 400;
+      color: var(--accent);
+      font-family: 'IBM Plex Serif', serif;
+    }
+    
+    /* element tag styling */
+    .element-tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      padding: 0.1rem 0.4rem;
+      margin: 0 0.2rem;
+      background: rgba(139, 58, 58, 0.08);
+      border-radius: 0;
+    }
+    
+    /* final flourish */
+    .end-mark {
+      text-align: center;
+      margin-top: 4rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--rule);
+      letter-spacing: 0.2em;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <!-- navigation header -->
+    <div class="nav-header">
+      <span class="chapter-marker">розділ vi • журнал спостережень</span>
+      <div class="nav-buttons">
+        <a href="nucleosis.html" class="nav-button">← нуклеосинтез важких елементів</a>
+        <a href="index.html" class="nav-button">початок →</a>
+      </div>
+    </div>
+    
+    <!-- title -->
+    <h1>збагачення міжзоряного середовища та загальна хімічна еволюція</h1>
+    
+    <div class="content-columns">
+      <p>внутрішньозоряний нуклеосинтез залишався б замкненим явищем, якби матерія, збагачена важкими елементами, не поверталася назад до міжзоряного середовища. механізми цього повернення відіграють вирішальну роль у розумінні хімічної еволюції нашої галактики та інших зоряних систем².</p>
+      
+      <p>маломасивні зорі наприкінці свого життя відчувають пульсаційну нестабільність, викидаючи свої зовнішні шари у формі планетарних туманностей. ці оболонки насичені продуктами гелієвого горіння (вуглецем, киснем) та ізотопами s-процесу. масивні зорі закінчують еволюцію епохальними вибухами наднових зір з колапсуючим ядром (тип іі, іb, іс), розпорошуючи в космос величезні кількості кисню, неону, магнію, кремнію та елементів r-процесу. крім того, наднові типу іа (термоядерні вибухи білих карликів у подвійних системах) є головними постачальниками заліза у всесвіт.</p>
+    </div>
+    
+    <!-- STELLAR POPULATIONS -->
+    <h2>зоряні населення та хімічна історія галактики</h2>
+    
+    <div class="content-columns">
+      <p>процеси збагачення міжзоряного середовища синтезованими хімічними елементами є фундаментом концепції зоряного населення². найперші зорі, що утворилися після великого вибуху (зоряне населення iii), складалися виключно з водню та гелію. вони були надзвичайно масивними, жили недовго і, вибухаючи, засіяли первісний газ першими "металами" (астрофізики називають металами всі елементи, важчі за гелій).</p>
+      
+      <p>з цього збагаченого газу сформувалося наступне покоління — зорі населення іі (до яких належать старі об'єкти гало та кулястих скупчень). вони є металічно-бідними, але вже мають сліди минулого нуклеосинтезу. врешті-решт, численні цикли зореутворення, горіння та викидів призвели до формування сучасного міжзоряного середовища з відносно високим вмістом металів (близько 2% за масою).</p>
+      
+      <p>саме з такого середовища утворилося сонце — представник населення і, разом із протопланетним диском, з якого виникла земля, багата на кремній, залізо, кисень і вуглець.</p>
+    </div>
+    
+    <!-- POPULATION TABLE -->
+    <div class="population-table">
+      <h3>● характеристики зоряних населень</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>населення</th>
+            <th>металічність [Fe/H]</th>
+            <th>вік</th>
+            <th>типове розташування</th>
+            <th>характеристики</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>населення і</td>
+            <td>~0 до +0.3</td>
+            <td>молоді (&lt; 10⁹ років)</td>
+            <td>диск галактики, спіральні рукави</td>
+            <td>сонце, багаті на метали, кругові орбіти</td>
+          </tr>
+          <tr>
+            <td>населення іі</td>
+            <td>-3 до -0.5</td>
+            <td>старі (10¹⁰ років)</td>
+            <td>гало, кулясті скупчення</td>
+            <td>бідні на метали, еліптичні орбіти</td>
+          </tr>
+          <tr>
+            <td>населення ііі</td>
+            <td>&lt; -6 (гіпотетично 0)</td>
+            <td>найдавніші (~13×10⁹ років)</td>
+            <td>не спостерігаються</td>
+            <td>лише H та He, дуже масивні, короткоживучі</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="content-columns">
+      <p>вивчення аномалій хімічного складу зір дозволяє астрофізикам реконструювати історію галактики². наприклад, надлишок альфа-елементів (таких як кисень і магній) по відношенню до заліза у старих зір свідчить про те, що на ранніх етапах еволюції галактики домінували швидкі вибухи масивних наднових з колапсуючим ядром, тоді як наднова типу іа (яким потрібні мільярди років для формування білого карлика та досягнення межі чандрасекара) почали збагачувати газ залізом значно пізніше.</p>
+    </div>
+    
+    <!-- ORIGIN OF ELEMENTS TABLE -->
+    <h2>походження хімічних елементів</h2>
+    
+    <table class="origin-table">
+      <thead>
+        <tr>
+          <th>елемент</th>
+          <th>символ</th>
+          <th>основний процес</th>
+          <th>астрофізичне джерело</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>водень</td><td>H</td><td>великий вибух</td><td>первинний нуклеосинтез</td></tr>
+        <tr><td>гелій</td><td>He</td><td>великий вибух + зоряний синтез</td><td>первинний + pp/CNO</td></tr>
+        <tr><td>вуглець</td><td>C</td><td>потрійний альфа-процес</td><td>червоні гіганти, AGB</td></tr>
+        <tr><td>азот</td><td>N</td><td>CNO-цикл</td><td>масивні зорі, AGB</td></tr>
+        <tr><td>кисень</td><td>O</td><td>альфа-захоплення</td><td>масивні зорі (наднові II)</td></tr>
+        <tr><td>неон, магній</td><td>Ne, Mg</td><td>горіння C, Ne</td><td>масивні зорі</td></tr>
+        <tr><td>кремній, сірка</td><td>Si, S</td><td>горіння O</td><td>масивні зорі (наднові II)</td></tr>
+        <tr><td>залізо</td><td>Fe</td><td>кремнієве горіння / наднові Ia</td><td>масивні зорі, білі карлики</td></tr>
+        <tr><td>важчі за Fe (Sr, Ba, Pb)</td><td>—</td><td>s-процес</td><td>AGB-зорі</td></tr>
+        <tr><td>важчі за Fe (Au, U, Eu)</td><td>—</td><td>r-процес</td><td>злиття нейтронних зір, CEJSN, наднові</td></tr>
+        <tr><td>рідкісні p-ізотопи</td><td>—</td><td>p-процес</td><td>наднові (фотодезінтеграція)</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- SUMMARY TIMELINE VISUALIZATION -->
+    <div class="summary-timeline">
+      <h3>● хронологія нуклеосинтезу у всесвіті</h3>
+      <canvas id="timelineCanvas" width="900" height="250"></canvas>
+      <div style="text-align: center; margin-top: 1.5rem; font-family: 'IBM Plex Serif', serif; font-size: 0.85rem; color: var(--ink-light); font-style: italic;">
+        від великого вибуху до сучасного хімічного різноманіття — 13.8 мільярдів років космічної еволюції.
+      </div>
+    </div>
+    
+    <!-- COMPLETE BURNING STAGES SUMMARY TABLE -->
+    <h2>повна ієрархія термоядерного горіння</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>стадія горіння</th>
+          <th>основне паливо</th>
+          <th>основні продукти</th>
+          <th>температура запалювання (K)</th>
+          <th>тривалість (для зорі 20 M☉)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>воднева</td><td>¹H</td><td>⁴He</td><td>4×10⁶ – 1.5×10⁷</td><td>10⁷ років</td></tr>
+        <tr><td>гелієва</td><td>⁴He</td><td>¹²C, ¹⁶O</td><td>1×10⁸</td><td>10⁶ років</td></tr>
+        <tr><td>вуглецева</td><td>¹²C</td><td>²⁰Ne, ²³Na, ²⁴Mg</td><td>5×10⁸</td><td>300 років</td></tr>
+        <tr><td>неонова</td><td>²⁰Ne</td><td>¹⁶O, ²⁴Mg</td><td>1.2×10⁹</td><td>6 місяців</td></tr>
+        <tr><td>киснева</td><td>¹⁶O</td><td>²⁸Si, ³²S</td><td>1.5×10⁹</td><td>6 місяців</td></tr>
+        <tr><td>кремнієва</td><td>²⁸Si</td><td>⁵⁶Fe, ⁵⁶Ni</td><td>&gt; 3×10⁹</td><td>1 – 3 дні</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- NEUTRON CAPTURE PROCESSES SUMMARY -->
+    <h2>процеси захоплення нейтронів та протонів</h2>
+    
+    <table>
+      <thead>
+        <tr>
+          <th>тип процесу</th>
+          <th>основне середовище локалізації</th>
+          <th>характер швидкості</th>
+          <th>типові синтезовані елементи</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>s-процес (нейтрони)</td><td>AGB-зорі (асимптотична гілка гігантів)</td><td>τ<sub>β</sub> ≪ τ<sub>захоплення</sub></td><td>Sr, Y, Zr, Ba, Pb</td></tr>
+        <tr><td>r-процес (нейтрони)</td><td>злиття нейтронних зір, CEJSN</td><td>τ<sub>β</sub> ≫ τ<sub>захоплення</sub></td><td>Au, Pt, U, Th, лантаноїди</td></tr>
+        <tr><td>rp-процес (протони)</td><td>рентгенівські спалахи на акрецюючих об'єктах</td><td>швидке захоплення протонів</td><td>багаті на протони ізотопи</td></tr>
+        <tr><td>p-процес (гамма)</td><td>наднові зорі (руйнування важких ядер)</td><td>фотодезінтеграція</td><td>рідкісні обійдені ізотопи</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- CONCLUSIONS -->
+    <div class="conclusion-box">
+      <h3>● висновки</h3>
+      <div class="content-columns">
+        <p>таким чином, зоряний нуклеосинтез є не просто механізмом підтримки світіння зір, а глобальним космологічним інструментом поступового ускладнення матерії. від простоти первісного протон-протонного газу до формування складної періодичної таблиці елементів, розмаїття якої зумовлене тонкою грою квантового тунелювання, термодинаміки, гравітації та релятивістської гідродинаміки у струменях наднових зір у спільних оболонках.</p>
+        
+        <p>це безперервний і величний цикл перетворення речовини, який безпосередньо уможливив існування твердих планет та біологічного життя. кожен атом вуглецю в наших тілах, кожен атом кисню, яким ми дихаємо, кожен атом заліза в нашій крові — все це було синтезовано в надрах давно згаслих зір і розсіяно по галактиці вибухами наднових. ми буквально складаємося з зоряного пилу.</p>
+        
+        <p>сучасна астрофізика продовжує відкривати нові деталі цих процесів — від ролі CEJSN у виробництві лантаноїдів до тонкощів нейтринного охолодження при колапсі залізного ядра. кожне нове спостереження, кожна детекція гравітаційних хвиль від злиття нейтронних зір додає нові фрагменти до цієї величної картини космічного кругообігу речовини.</p>
+      </div>
+    </div>
+    
+    <!-- GLOSSARY REFERENCES -->
+    <div style="margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; color: var(--ink-light);">
+        <span style="color: var(--accent);">¹</span> — процеси горіння на головній послідовності та пізніх етапах масивних зір. [оглядова стаття про еволюцію надгігантів та термоядерні реакції].<br>
+        <span style="color: var(--accent);">²</span> — механізми нейтронізації речовини, s-процес, r-процес та rp-процес. збагачення міжзоряного середовища. [навчальний посібник з ядерної астрофізики].<br>
+        <span style="color: var(--accent);">³</span> — гіпотеза та фізичне моделювання феномену CEJSN. [публікація у The Astrophysical Journal].
+      </p>
+    </div>
+    
+    <!-- footer navigation -->
+    <div class="footer-nav">
+      <a href="nucleosis.html" class="nav-button">← нуклеосинтез важких елементів</a>
+      <a href="index.html" class="nav-button">повернутися до початку →</a>
+    </div>
+    
+    <div class="end-mark">
+      ◇ ◇ ◇
+    </div>
+  </article>
+  
+  <script>
+    (function() {
+      'use strict';
+      
+      const canvas = document.getElementById('timelineCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      function drawTimeline() {
+        ctx.clearRect(0, 0, 900, 250);
+        
+        const cx = 80;
+        const cy = 120;
+        const width = 780;
+        
+        // main timeline arrow
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx + width, cy);
+        ctx.strokeStyle = '#d4d9e0';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // arrowhead
+        ctx.beginPath();
+        ctx.moveTo(cx + width, cy);
+        ctx.lineTo(cx + width - 10, cy - 6);
+        ctx.lineTo(cx + width - 10, cy + 6);
+        ctx.closePath();
+        ctx.fillStyle = '#d4d9e0';
+        ctx.fill();
+        
+        // time markers
+        const events = [
+          { time: 0, label: 'великий вибух', x: cx, color: '#1a1e24' },
+          { time: 0.1, label: 'перші зорі (pop III)', x: cx + 60, color: '#3a5a8b' },
+          { time: 1, label: 'формування галактик', x: cx + 180, color: '#3a5a8b' },
+          { time: 5, label: 'пік зореутворення', x: cx + 350, color: '#8b3a3a' },
+          { time: 9, label: 'формування сонця', x: cx + 600, color: '#e67e22' },
+          { time: 13.8, label: 'сучасність', x: cx + width, color: '#1a1e24' }
+        ];
+        
+        events.forEach(event => {
+          // vertical tick
+          ctx.beginPath();
+          ctx.moveTo(event.x, cy - 8);
+          ctx.lineTo(event.x, cy + 8);
+          ctx.strokeStyle = event.color;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          
+          // label
+          ctx.font = '9px "IBM Plex Mono", monospace';
+          ctx.fillStyle = event.color;
+          ctx.textAlign = 'center';
+          ctx.fillText(event.label, event.x, cy - 18);
+          
+          // time annotation
+          if (event.time > 0 && event.time < 13.8) {
+            ctx.font = '8px "IBM Plex Mono", monospace';
+            ctx.fillStyle = '#3a404a';
+            ctx.fillText(event.time + ' млрд р', event.x, cy + 22);
+          } else if (event.time === 0) {
+            ctx.font = '8px "IBM Plex Mono", monospace';
+            ctx.fillStyle = '#3a404a';
+            ctx.fillText('t = 0', event.x, cy + 22);
+          } else {
+            ctx.font = '8px "IBM Plex Mono", monospace';
+            ctx.fillStyle = '#3a404a';
+            ctx.fillText('13.8 млрд р', event.x, cy + 22);
+          }
+        });
+        
+        // nucleosynthesis epochs below timeline
+        const epochs = [
+          { start: cx, end: cx + 10, label: 'первинний нуклеосинтез', color: '#1a1e24', y: 170 },
+          { start: cx + 10, end: cx + width, label: 'зоряний нуклеосинтез', color: '#8b3a3a', y: 170 },
+          { start: cx + 180, end: cx + width, label: 's-процес (AGB)', color: '#3a5a8b', y: 190 },
+          { start: cx + 350, end: cx + width, label: 'r-процес (злиття НЗ, CEJSN)', color: '#8b3a3a', y: 210 }
+        ];
+        
+        epochs.forEach(epoch => {
+          ctx.beginPath();
+          ctx.moveTo(epoch.start, epoch.y);
+          ctx.lineTo(epoch.end, epoch.y);
+          ctx.strokeStyle = epoch.color;
+          ctx.lineWidth = 1.5;
+          ctx.setLineDash([4, 3]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+          
+          ctx.font = '8px "IBM Plex Mono", monospace';
+          ctx.fillStyle = epoch.color;
+          ctx.textAlign = 'left';
+          ctx.fillText(epoch.label, epoch.start + 5, epoch.y - 3);
+        });
+        
+        // element emergence markers
+        ctx.font = '8px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#3a404a';
+        ctx.textAlign = 'center';
+        ctx.fillText('H, He, Li', cx + 30, 160);
+        ctx.fillText('C, O, Ne, Mg', cx + 250, 145);
+        ctx.fillText('Si, S, Fe', cx + 450, 145);
+        ctx.fillText('Sr, Ba, Pb (s)', cx + 500, 175);
+        ctx.fillText('Au, U (r)', cx + 650, 215);
+      }
+      
+      drawTimeline();
+      
+      window.addEventListener('resize', function() {
+        drawTimeline();
+      });
+    })();
+  </script>
+</body>
+</html>

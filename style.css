@@ -1,0 +1,343 @@
+/* ============================================
+   OBSERVATORY LOG • STELLAR NUCLEOSYNTHESIS
+   ============================================ */
+
+/* --- 1. FONTS: SERIF BODY WITH PRECISION --- */
+/* Assumes IBM Plex Serif and IBM Plex Sans are loaded */
+/* (or FF Meta Serif / STIX Two Math as fallbacks) */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Calm, observatory palette */
+  --paper: #fcfbf7;      /* warm off-white, like aged observation paper */
+  --ink: #1a1e24;        /* deep blue-grey, softer than pure black */
+  --ink-light: #3a404a;  /* for secondary text, notes */
+  --rule: #d4d9e0;       /* faint divider line */
+  --accent: #8b3a3a;     /* deep observatory red - used sparingly */
+  --equation-bg: #f4f2eb; /* subtle warmth behind equations */
+  
+  /* Typography scale - generous and readable */
+  --text-base: 20px;
+  --text-small: 16px;
+  --text-mono: 0.9em;
+  --line-height-body: 1.6;
+  --line-height-heading: 1.2;
+  
+  /* Spatial rhythm - asymmetric, not generic card padding */
+  --space-xs: 0.25rem;
+  --space-s: 0.75rem;
+  --space-m: 1.5rem;
+  --space-l: 3rem;
+  --space-xl: 5rem;
+  --space-xxl: 8rem;
+}
+
+/* --- 2. BASE: TEXTURE & BREATHING --- */
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'IBM Plex Serif', 'FF Meta Serif', 'STIX Two Text', Georgia, serif;
+  font-size: var(--text-base);
+  line-height: var(--line-height-body);
+  font-weight: 400;
+  
+  /* Subtle film grain texture - intentional imperfection */
+  background-image: 
+    repeating-radial-gradient(circle at 30% 40%, rgba(210, 200, 180, 0.015) 0px, transparent 2px),
+    repeating-linear-gradient(45deg, rgba(180, 170, 160, 0.008) 0px, transparent 1px);
+  
+  margin: 0;
+  padding: 0;
+  
+  /* Font rendering optimized for calm reading */
+  font-feature-settings: "kern" 1, "liga" 1, "pnum" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- 3. LAYOUT: ASYMMETRIC, BROKEN GRID --- */
+/* No generic centered container with even padding */
+
+article {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xxl) var(--space-l) var(--space-xxl) var(--space-l);
+}
+
+/* Deliberate offset - not centered by default */
+@media (min-width: 900px) {
+  article {
+    margin-left: 25%;
+    margin-right: auto;
+    max-width: 680px;
+  }
+}
+
+/* --- 4. TYPOGRAPHY: HEADINGS WITH RESTRAINT --- */
+
+h1, h2, h3 {
+  font-family: 'IBM Plex Serif', 'FF Meta Serif', serif;
+  font-weight: 500;
+  line-height: var(--line-height-heading);
+  letter-spacing: -0.01em;
+}
+
+/* Title: observatory catalog style, not hero */
+h1 {
+  font-size: 2.4rem;
+  font-weight: 400;
+  margin: 0 0 var(--space-l) 0;
+  padding-bottom: var(--space-m);
+  border-bottom: 1px solid var(--rule);
+  text-transform: lowercase;
+  font-variant: small-caps;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+/* Section headers: quiet, like log entries */
+h2 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: var(--space-xl) 0 var(--space-s) 0;
+  text-transform: lowercase;
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+  color: var(--ink-light);
+  border-left: 2px solid var(--accent);
+  padding-left: var(--space-m);
+}
+
+/* Subsection headers */
+h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: var(--space-l) 0 var(--space-s) 0;
+  font-style: italic;
+  color: var(--ink);
+}
+
+/* --- 5. EQUATIONS: TREATED AS PHOTOGRAPHS --- */
+
+/* Equation blocks have significant breathing room */
+p:has(> span.math, > span.katex),
+.equation-block {
+  display: block;
+  margin: var(--space-l) 0;
+  padding: var(--space-l) var(--space-m);
+  background-color: var(--equation-bg);
+  border-left: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+  
+  /* Clean sans-serif math rendering */
+  font-family: 'IBM Plex Mono', 'STIX Two Math', 'Cambria Math', monospace;
+  font-size: 1.1rem;
+  text-align: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  
+  /* Subtle inner shadow for depth, not glass */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+}
+
+/* Inline math - subtle distinction */
+.math-inline {
+  font-family: 'IBM Plex Mono', 'STIX Two Math', monospace;
+  font-size: 0.95em;
+  background-color: transparent;
+  padding: 0.05em 0.2em;
+  border-bottom: 1px dotted var(--rule);
+}
+
+/* Specific styling for reaction equations - centered, calm */
+.reaction {
+  display: block;
+  text-align: center;
+  margin: var(--space-l) auto;
+  font-family: 'IBM Plex Mono', 'STIX Two Math', monospace;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+}
+
+/* --- 6. TABLES: BAUHAUS UTILITY, NO CARD SHADOWS --- */
+
+table {
+  width: 100%;
+  margin: var(--space-l) 0;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  font-family: 'IBM Plex Mono', 'IBM Plex Sans', sans-serif;
+  text-align: left;
+}
+
+th {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: var(--ink-light);
+  padding: var(--space-s) var(--space-m) var(--space-xs) var(--space-m);
+  border-bottom: 1px solid var(--ink);
+}
+
+td {
+  padding: var(--space-s) var(--space-m);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+/* Zebra striping with restraint */
+tr:nth-child(even) td {
+  background-color: rgba(0,0,0,0.01);
+}
+
+/* --- 7. PARAGRAPHS & RHYTHM --- */
+
+p {
+  margin: 0 0 var(--space-m) 0;
+  text-indent: 0;
+}
+
+/* First paragraph after heading - no indent, but has a subtle lead */
+h2 + p::first-letter,
+h3 + p::first-letter {
+  font-size: 3.2em;
+  float: left;
+  line-height: 0.8;
+  margin-right: 0.12em;
+  margin-top: 0.05em;
+  font-weight: 400;
+  color: var(--accent);
+  font-family: 'IBM Plex Serif', serif;
+}
+
+/* Footnotes and gloss references - intentional texture */
+sup, sub {
+  font-size: 0.7rem;
+  line-height: 0;
+}
+
+sup a, sub a {
+  text-decoration: none;
+  color: var(--accent);
+  border-bottom: none;
+}
+
+/* --- 8. LINKS & INTERACTIONS: FUNCTIONAL, NO DECORATIVE ANIMATION --- */
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 1px;
+}
+
+/* Glossary references - like marginal notes */
+.glossary-ref {
+  font-size: var(--text-small);
+  color: var(--ink-light);
+  display: block;
+  margin-top: var(--space-m);
+  padding-top: var(--space-s);
+  border-top: 1px solid var(--rule);
+  font-style: italic;
+}
+
+/* --- 9. CODE & MONOSPACE (for variable names) --- */
+
+code, .var {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.9em;
+  background: transparent;
+  padding: 0;
+  color: var(--ink);
+}
+
+/* --- 10. GLOSSARY SECTION --- */
+.glossary {
+  margin-top: var(--space-xxl);
+  padding-top: var(--space-l);
+  border-top: 2px solid var(--rule);
+  font-size: var(--text-small);
+}
+
+.glossary h3 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-style: normal;
+  margin-bottom: var(--space-m);
+}
+
+.glossary ol {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.glossary li {
+  margin-bottom: var(--space-s);
+  padding-left: var(--space-m);
+  text-indent: -1.2em;
+}
+
+/* --- 11. MEDIA QUERIES: READABILITY ADJUSTMENTS --- */
+
+@media (max-width: 600px) {
+  body {
+    font-size: 18px;
+  }
+  
+  article {
+    padding: var(--space-l) var(--space-m);
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.3rem;
+  }
+  
+  .equation-block {
+    padding: var(--space-m) var(--space-s);
+    font-size: 0.9rem;
+  }
+}
+
+/* --- 12. PRINT STYLES: PAPER-FIRST --- */
+
+@media print {
+  body {
+    background: white;
+    color: black;
+    font-size: 12pt;
+  }
+  
+  article {
+    max-width: 100%;
+    margin: 0;
+    padding: 0.5in;
+  }
+  
+  .equation-block {
+    background: none;
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+  
+  a {
+    text-decoration: none;
+    color: black;
+  }
+}

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>порушення рівноваги • зоряний нуклеосинтез</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* full-width laptop reading — expansive, calm, observatory log */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    article {
+      max-width: 90%;
+      width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 4rem 5rem 4rem;
+    }
+    
+    @media (min-width: 1600px) {
+      article {
+        max-width: 85%;
+        width: 1500px;
+        padding: 3.5rem 5rem 6rem 5rem;
+      }
+    }
+    
+    @media (min-width: 1920px) {
+      article {
+        max-width: 80%;
+        width: 1600px;
+      }
+    }
+    
+    /* two-column reading for very wide screens */
+    @media (min-width: 1400px) {
+      .content-columns {
+        column-count: 2;
+        column-gap: 3.5rem;
+        column-rule: 1px solid var(--rule);
+      }
+      
+      .content-columns p {
+        break-inside: avoid;
+      }
+      
+      h2, h3 {
+        column-span: all;
+      }
+      
+      .equation-block,
+      .graph-container,
+      .scheme-container,
+      table {
+        column-span: all;
+      }
+    }
+    
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1rem;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .nav-button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 1rem;
+      border-radius: 0;
+      background: transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      letter-spacing: 0.01em;
+    }
+    
+    .nav-button:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .chapter-marker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+    
+    /* graph containers — like photographs, calm presentation */
+    .graph-container {
+      margin: 3rem 0;
+      padding: 2rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    .scheme-container {
+      margin: 3rem 0;
+      padding: 2.5rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    .graph-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    
+    .graph-svg {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      height: auto;
+    }
+    
+    .graph-caption {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    /* two graphs side by side on wide screens */
+    .graph-row {
+      display: flex;
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .graph-row .graph-container {
+      flex: 1;
+      margin: 0;
+    }
+    
+    @media (max-width: 1000px) {
+      .graph-row {
+        flex-direction: column;
+      }
+    }
+    
+    /* equation blocks */
+    .equation-block {
+      display: block;
+      margin: 3rem 0;
+      padding: 2.5rem 2rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      font-family: 'IBM Plex Mono', 'STIX Two Math', 'Cambria Math', monospace;
+      font-size: 1.2rem;
+      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    sup, sub {
+      font-size: 0.7rem;
+      line-height: 0;
+    }
+    
+    .footer-nav {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+    
+    h1 {
+      max-width: none;
+      margin-bottom: 1rem;
+    }
+    
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h3 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+    
+    h2 + p::first-letter {
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.08em;
+      font-weight: 400;
+      color: var(--accent);
+      font-family: 'IBM Plex Serif', serif;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <!-- navigation header -->
+    <div class="nav-header">
+      <span class="chapter-marker">розділ ііі • журнал спостережень</span>
+      <div class="nav-buttons">
+        <a href="cycle.html" class="nav-button">← водневий цикл</a>
+        <a href="evolution.html" class="nav-button">подальша еволюція →</a>
+      </div>
+    </div>
+    
+    <!-- title -->
+    <h1>порушення рівноваги: перехід до стадії надгіганта та гелієве горіння</h1>
+    
+    <div class="content-columns">
+      <p>неминучим наслідком термоядерних реакцій є зміна хімічного складу зоряного ядра. поступово водень перетворюється на гелій, і коли водневе паливо в центральній зоні повністю вичерпується, зоря завершує своє перебування на головній послідовності¹. припинення екзотермічних реакцій водневого циклу в ядрі призводить до миттєвого (в термодинамічному сенсі) падіння внутрішнього тиску. гідростатична рівновага порушується, і ядро, що тепер складається переважно з інертного гелію, починає стрімко стискатися під невблаганною дією власної гравітації.</p>
+    </div>
+    
+    <!-- GRAPH 1: Core contraction and envelope expansion -->
+    <div class="graph-container">
+      <div class="graph-title">рис. 1 — еволюція структури зорі після вичерпання водню в ядрі</div>
+      <svg class="graph-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+        <!-- star on main sequence (left) -->
+        <circle cx="200" cy="200" r="80" fill="#f4d03f" fill-opacity="0.3" stroke="#d4a017" stroke-width="1.5" />
+        <circle cx="200" cy="200" r="25" fill="#f5b041" fill-opacity="0.5" stroke="#d4a017" stroke-width="1" />
+        <text x="200" y="300" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1a1e24" text-anchor="middle">головна послідовність</text>
+        <text x="200" y="315" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">водневе ядро</text>
+        
+        <!-- arrow -->
+        <line x1="290" y1="200" x2="370" y2="200" stroke="#3a404a" stroke-width="2" marker-end="url(#arrowhead)" />
+        <text x="330" y="190" font-family="IBM Plex Mono, monospace" font-size="10" fill="#8b3a3a" text-anchor="middle">стискання</text>
+        
+        <!-- red giant (right) -->
+        <circle cx="580" cy="200" r="140" fill="#e74c3c" fill-opacity="0.15" stroke="#c0392b" stroke-width="1.5" />
+        <circle cx="580" cy="200" r="20" fill="#f5f5dc" fill-opacity="0.7" stroke="#d4a017" stroke-width="1" />
+        <circle cx="580" cy="200" r="8" fill="#1a1e24" fill-opacity="0.8" />
+        <text x="580" y="355" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1a1e24" text-anchor="middle">червоний гігант</text>
+        <text x="580" y="370" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">гелієве ядро + водневий шар</text>
+        
+        <!-- labels -->
+        <line x1="500" y1="160" x2="450" y2="100" stroke="#3a404a" stroke-width="0.8" />
+        <text x="505" y="95" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">розширена оболонка</text>
+        
+        <line x1="600" y1="220" x2="680" y2="280" stroke="#3a404a" stroke-width="0.8" />
+        <text x="685" y="285" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">T ≈ 10⁸ K</text>
+        
+        <defs>
+          <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+            <polygon points="0 0, 10 3.5, 0 7" fill="#3a404a" />
+          </marker>
+        </defs>
+      </svg>
+      <div class="graph-caption">після вичерпання водню ядро стискається, зовнішні шари розширюються — зоря стає червоним гігантом.</div>
+    </div>
+    
+    <div class="content-columns">
+      <p>відповідно до законів термодинаміки, гравітаційне стискання призводить до вивільнення потенційної енергії, яка перетворюється на теплову. ядро розігрівається, передаючи частину цього тепла тонкому шару водню, що безпосередньо оточує гелієве ядро. у цьому шарі запалюється водневе горіння, світність зорі різко зростає. величезний потік радіації розпирає зовнішні оболонки зорі; вони розширюються на сотні мільйонів кілометрів, охолоджуючись при цьому. зоря змінює свій спектральний клас і перетворюється на червоного гіганта або, у випадку значної початкової маси, на червоного надгіганта¹. тим часом стискання центрального гелієвого ядра триває доти, доки його температура не досягне критичної позначки приблизно у 10⁸ кельвінів. за таких екстремальних умов долається кулонівський бар'єр між ядрами гелію (альфа-частинками), і розпочинається стадія гелієвого горіння.</p>
+    </div>
+    
+    <!-- SCHEME: Shell structure of red giant -->
+    <div class="scheme-container">
+      <div class="graph-title">схема 1 — шарувата структура червоного гіганта</div>
+      <svg class="graph-svg" viewBox="0 0 700 350" preserveAspectRatio="xMidYMid meet">
+        <!-- outer envelope (H) -->
+        <circle cx="350" cy="175" r="150" fill="#f4d03f" fill-opacity="0.1" stroke="#d4a017" stroke-width="1" stroke-dasharray="8,4" />
+        
+        <!-- H-burning shell -->
+        <circle cx="350" cy="175" r="100" fill="#f39c12" fill-opacity="0.15" stroke="#e67e22" stroke-width="1" />
+        
+        <!-- He core -->
+        <circle cx="350" cy="175" r="50" fill="#ecf0f1" fill-opacity="0.4" stroke="#7f8c8d" stroke-width="1.5" />
+        
+        <!-- center label -->
+        <text x="350" y="180" font-family="IBM Plex Mono, monospace" font-size="12" fill="#1a1e24" text-anchor="middle">He</text>
+        
+        <!-- labels with lines -->
+        <line x1="500" y1="175" x2="620" y2="100" stroke="#3a404a" stroke-width="0.8" />
+        <text x="625" y="95" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1a1e24">воднева оболонка</text>
+        <text x="625" y="110" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">(незгорілий H)</text>
+        
+        <line x1="430" y1="120" x2="550" y2="60" stroke="#3a404a" stroke-width="0.8" />
+        <text x="555" y="55" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1a1e24">шар горіння H</text>
+        <text x="555" y="70" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">T ~ 2×10⁷ K</text>
+        
+        <line x1="380" y1="145" x2="550" y2="160" stroke="#3a404a" stroke-width="0.8" />
+        <text x="555" y="155" font-family="IBM Plex Mono, monospace" font-size="11" fill="#1a1e24">гелієве ядро</text>
+        <text x="555" y="170" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">T → 10⁸ K</text>
+      </svg>
+      <div class="graph-caption">червоний гігант має інертне гелієве ядро, оточене шаром горіння водню та протяжною водневою оболонкою.</div>
+    </div>
+    
+    <h2>потрійний альфа-процес та резонанс хойла</h2>
+    
+    <div class="content-columns">
+      <p>цей процес становить значну інтересність для ядерної фізики через відсутність у природі стабільних ізотопів з масовими числами 5 та 8. пряме злиття двох альфа-частинок з утворенням ядра берилію-8 є термодинамічно глибоко ендотермічним, а сам ізотоп берилій-8 є вкрай нестабільним: він розпадається назад на дві альфа-частинки за мізерний час — близько 10⁻¹⁶ секунд. подолання цього ізотопного бар'єра здавалося неможливим, доки астрофізик фред хойл не передбачив існування специфічного резонансного енергетичного стану ядра вуглецю-12.</p>
+      
+      <p>синтез вуглецю відбувається через так званий потрійний альфа-процес. у щільній та гарячій гелієвій плазмі постійно існує невелика, але динамічно рівноважна концентрація нестабільного берилію-8. доки цей берилій не встиг розпастися, третя альфа-частинка встигає зіткнутися з ним, утворюючи збуджене ядро вуглецю-12 (стан хойла). згодом це збуджене ядро випромінює два гамма-кванти і переходить в основний, стабільний стан:</p>
+    </div>
+    
+    <div class="equation-block">
+      ⁴he + ⁴he ⇌ ⁸be<br>
+      ⁸be + ⁴he → ¹²c* → ¹²c + 2γ
+    </div>
+    
+    <!-- GRAPH 2: Triple-alpha process energy levels -->
+    <div class="graph-container">
+      <div class="graph-title">рис. 2 — енергетичні рівні в потрійному альфа-процесі (резонанс хойла)</div>
+      <svg class="graph-svg" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet">
+        <!-- energy axis -->
+        <line x1="100" y1="320" x2="100" y2="50" stroke="#d4d9e0" stroke-width="1.5" />
+        <text x="90" y="190" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3a404a" text-anchor="end" transform="rotate(-90, 90, 190)">енергія →</text>
+        
+        <!-- 3α baseline -->
+        <line x1="100" y1="300" x2="700" y2="300" stroke="#3a404a" stroke-width="0.8" stroke-dasharray="6,3" />
+        <text x="710" y="305" font-family="IBM Plex Mono, monospace" font-size="10" fill="#3a404a">3α (вільні)</text>
+        
+        <!-- 8Be + α level -->
+        <line x1="100" y1="200" x2="700" y2="200" stroke="#3a404a" stroke-width="0.8" stroke-dasharray="6,3" />
+        <text x="710" y="205" font-family="IBM Plex Mono, monospace" font-size="10" fill="#3a404a">⁸be + α</text>
+        
+        <!-- Hoyle state -->
+        <line x1="150" y1="120" x2="650" y2="120" stroke="#8b3a3a" stroke-width="2" />
+        <text x="150" y="110" font-family="IBM Plex Mono, monospace" font-size="11" fill="#8b3a3a">стан хойла (7.65 MeB)</text>
+        
+        <!-- Ground state 12C -->
+        <line x1="150" y1="260" x2="650" y2="260" stroke="#3a5a8b" stroke-width="2" />
+        <text x="150" y="250" font-family="IBM Plex Mono, monospace" font-size="11" fill="#3a5a8b">основний стан ¹²c</text>
+        
+        <!-- arrows -->
+        <!-- 2α → 8Be -->
+        <path d="M 250 300 Q 280 250 250 200" fill="none" stroke="#3a404a" stroke-width="1" marker-end="url(#arrowhead2)" />
+        <text x="290" y="255" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">утворення ⁸be</text>
+        
+        <!-- 8Be + α → Hoyle -->
+        <path d="M 350 200 Q 380 150 350 120" fill="none" stroke="#3a404a" stroke-width="1" marker-end="url(#arrowhead2)" />
+        <text x="390" y="155" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">захоплення α</text>
+        
+        <!-- Hoyle → ground state (gamma) -->
+        <path d="M 450 120 Q 480 190 450 260" fill="none" stroke="#8b3a3a" stroke-width="1.5" marker-end="url(#arrowhead2)" />
+        <text x="490" y="195" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8b3a3a">випромінювання 2γ</text>
+        
+        <!-- energy values -->
+        <text x="250" y="285" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">Q = 7.275 MeB</text>
+        <text x="250" y="235" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">0.092 MeB</text>
+        <text x="250" y="145" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">резонанс +0.287 MeB</text>
+        
+        <defs>
+          <marker id="arrowhead2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#3a404a" />
+          </marker>
+        </defs>
+      </svg>
+      <div class="graph-caption">резонансний стан хойла дозволяє подолати нестабільність ⁸be та синтезувати вуглець.</div>
+    </div>
+    
+    <div class="content-columns">
+      <p>одночасно з потрійним альфа-процесом, новоутворені ядра вуглецю можуть захоплювати додаткові альфа-частинки, ініціюючи реакції альфа-захоплення. найважливішою з них є утворення кисню:</p>
+    </div>
+    
+    <div class="equation-block">
+      ¹²c + ⁴he → ¹⁶o + γ
+    </div>
+    
+    <div class="content-columns">
+      <p>подальше приєднання альфа-частинок до кисню (з утворенням неону) на цьому етапі відбувається менш інтенсивно. таким чином, продуктами стадії горіння гелію є формування нового ядра зорі, яке складається переважно з ізотопів вуглецю та кисню¹. тривалість цієї стадії становить приблизно 10% від часу перебування зорі на головній послідовності (сотні тисяч або мільйони років, залежно від маси).</p>
+      
+      <p>подальша доля зорі критично залежить від її маси. об'єкти з масою, меншою за 8 мас сонця, не здатні стиснути своє вуглецево-кисневе ядро настільки, щоб досягти температур запалювання вуглецю. їхнє ядро стає виродженим, оболонка скидається у вигляді планетарної туманності, а центральна частина перетворюється на вуглецево-кисневий білий карлик.</p>
+    </div>
+    
+    <!-- GRAPH 3: Evolutionary tracks on H-R diagram -->
+    <div class="graph-container">
+      <div class="graph-title">рис. 3 — еволюційний трек зорі сонячної маси на діаграмі герцшпрунга-рассела</div>
+      <svg class="graph-svg" viewBox="0 0 800 450" preserveAspectRatio="xMidYMid meet">
+        <!-- axes -->
+        <line x1="120" y1="380" x2="750" y2="380" stroke="#d4d9e0" stroke-width="1" />
+        <line x1="120" y1="380" x2="120" y2="40" stroke="#d4d9e0" stroke-width="1" />
+        
+        <!-- main sequence line -->
+        <line x1="200" y1="120" x2="650" y2="350" stroke="#d4d9e0" stroke-width="1.5" stroke-dasharray="6,3" />
+        <text x="660" y="355" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a">головна послідовність</text>
+        
+        <!-- evolutionary track (Sun-like) -->
+        <path d="M 420 220 Q 420 220 400 200 Q 350 160 250 140 Q 180 130 150 160 Q 140 180 160 220 Q 200 300 300 350 Q 400 380 500 370 Q 600 360 650 320 Q 700 270 720 200" 
+              fill="none" stroke="#8b3a3a" stroke-width="2.5" />
+        
+        <!-- markers along track -->
+        <!-- ZAMS -->
+        <circle cx="420" cy="220" r="5" fill="#1a1e24" />
+        <text x="430" y="210" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1a1e24">zams</text>
+        
+        <!-- present Sun -->
+        <circle cx="380" cy="190" r="4" fill="#f4d03f" stroke="#1a1e24" stroke-width="1" />
+        <text x="320" y="175" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1a1e24">сонце (зараз)</text>
+        
+        <!-- subgiant -->
+        <circle cx="250" cy="140" r="3" fill="#1a1e24" />
+        
+        <!-- red giant branch -->
+        <circle cx="160" cy="220" r="4" fill="#e74c3c" stroke="#1a1e24" stroke-width="1" />
+        <text x="100" y="215" font-family="IBM Plex Mono, monospace" font-size="9" fill="#e74c3c">червоний гігант</text>
+        
+        <!-- He flash (not visible) - horizontal branch -->
+        <circle cx="300" cy="350" r="3" fill="#3a5a8b" />
+        
+        <!-- AGB -->
+        <circle cx="550" cy="370" r="4" fill="#e74c3c" stroke="#1a1e24" stroke-width="1" />
+        <text x="500" y="390" font-family="IBM Plex Mono, monospace" font-size="9" fill="#e74c3c">agb</text>
+        
+        <!-- planetary nebula ejection (arrow) -->
+        <path d="M 650 320 Q 680 280 720 200" fill="none" stroke="#3a5a8b" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowhead3)" />
+        <text x="680" y="240" font-family="IBM Plex Mono, monospace" font-size="8" fill="#3a5a8b">скидання оболонки</text>
+        
+        <!-- white dwarf -->
+        <circle cx="720" cy="200" r="5" fill="#ecf0f1" stroke="#1a1e24" stroke-width="1" />
+        <text x="700" y="185" font-family="IBM Plex Mono, monospace" font-size="9" fill="#1a1e24">білий карлик</text>
+        
+        <!-- axes labels -->
+        <text x="400" y="420" font-family="IBM Plex Serif, serif" font-size="13" fill="#3a404a" text-anchor="middle">температура поверхні (K) →</text>
+        <text x="40" y="210" font-family="IBM Plex Serif, serif" font-size="13" fill="#3a404a" text-anchor="middle" transform="rotate(-90, 40, 210)">світність (L☉) →</text>
+        
+        <!-- temp ticks -->
+        <text x="650" y="395" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">3000</text>
+        <text x="500" y="395" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">4000</text>
+        <text x="350" y="395" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">5000</text>
+        <text x="200" y="395" font-family="IBM Plex Mono, monospace" font-size="9" fill="#3a404a" text-anchor="middle">6000</text>
+        
+        <defs>
+          <marker id="arrowhead3" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#3a5a8b" />
+          </marker>
+        </defs>
+      </svg>
+      <div class="graph-caption">еволюційний шлях зорі сонячної маси: від головної послідовності через стадію червоного гіганта до білого карлика.</div>
+    </div>
+    
+    <!-- footer navigation -->
+    <div class="footer-nav">
+      <a href="cycle.html" class="nav-button">← водневий цикл</a>
+      <a href="evolution.html" class="nav-button">подальша еволюція →</a>
+    </div>
+  </article>
+</body>
+</html>

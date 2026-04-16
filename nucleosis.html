@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>нуклеосинтез важких елементів • зоряний нуклеосинтез</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    article {
+      max-width: 90%;
+      width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 4rem 5rem 4rem;
+    }
+    
+    @media (min-width: 1600px) {
+      article {
+        max-width: 85%;
+        width: 1500px;
+        padding: 3.5rem 5rem 6rem 5rem;
+      }
+    }
+    
+    @media (min-width: 1920px) {
+      article {
+        max-width: 80%;
+        width: 1600px;
+      }
+    }
+    
+    @media (min-width: 1400px) {
+      .content-columns {
+        column-count: 2;
+        column-gap: 3.5rem;
+        column-rule: 1px solid var(--rule);
+      }
+      
+      .content-columns p {
+        break-inside: avoid;
+      }
+      
+      h2, h3 {
+        column-span: all;
+      }
+      
+      .equation-block,
+      .illustration-container,
+      .process-selector,
+      .nuclei-chart,
+      table {
+        column-span: all;
+      }
+    }
+    
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1rem;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .nav-button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 1rem;
+      border-radius: 0;
+      background: transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+    }
+    
+    .nav-button:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .chapter-marker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+    
+    /* process selector — interactive navigation */
+    .process-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 2.5rem 0 2rem 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    
+    .process-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-radius: 0;
+      letter-spacing: 0.03em;
+    }
+    
+    .process-btn:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+    
+    .process-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    
+    /* illustration container */
+    .illustration-container {
+      margin: 3rem 0;
+      padding: 2.5rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    .illustration-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .illustration-title span {
+      color: var(--accent);
+    }
+    
+    .illustration-canvas {
+      display: block;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      image-rendering: crisp-edges;
+    }
+    
+    .illustration-caption {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    /* nuclei chart container */
+    .nuclei-chart {
+      margin: 3rem 0;
+      padding: 2.5rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    
+    .chart-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    /* info panel */
+    .info-panel {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border-left: 2px solid var(--accent);
+      background: rgba(139, 58, 58, 0.03);
+    }
+    
+    .info-panel p {
+      margin: 0 0 0.5rem 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .info-panel p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .info-panel .label {
+      color: var(--accent);
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* equation blocks */
+    .equation-block {
+      display: block;
+      margin: 3rem 0;
+      padding: 2.5rem 2rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      font-family: 'IBM Plex Mono', 'STIX Two Math', 'Cambria Math', monospace;
+      font-size: 1.2rem;
+      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    /* two columns for comparison */
+    .comparison-row {
+      display: flex;
+      gap: 2rem;
+      margin: 2.5rem 0;
+    }
+    
+    .comparison-col {
+      flex: 1;
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.01);
+      border: 1px solid var(--rule);
+    }
+    
+    .comparison-col h4 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 1rem 0;
+      color: var(--accent);
+    }
+    
+    @media (max-width: 800px) {
+      .comparison-row {
+        flex-direction: column;
+      }
+    }
+    
+    /* tables */
+    table {
+      width: 100%;
+      margin: 2.5rem 0;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      font-family: 'IBM Plex Mono', 'IBM Plex Sans', sans-serif;
+      text-align: left;
+    }
+    
+    th {
+      font-weight: 500;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      padding: 0.75rem 1rem 0.5rem 1rem;
+      border-bottom: 1px solid var(--ink);
+    }
+    
+    td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: rgba(0,0,0,0.01);
+    }
+    
+    sup, sub {
+      font-size: 0.7rem;
+      line-height: 0;
+    }
+    
+    .footer-nav {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+    
+    h1 {
+      max-width: none;
+      margin-bottom: 1rem;
+    }
+    
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h3 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+    
+    h2 + p::first-letter {
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.08em;
+      font-weight: 400;
+      color: var(--accent);
+      font-family: 'IBM Plex Serif', serif;
+    }
+    
+    /* CEJSN highlight box */
+    .cejsn-box {
+      margin: 2.5rem 0;
+      padding: 2rem;
+      background: rgba(139, 58, 58, 0.05);
+      border: 1px solid var(--accent);
+    }
+    
+    .cejsn-box h4 {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      margin: 0 0 1rem 0;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <!-- navigation header -->
+    <div class="nav-header">
+      <span class="chapter-marker">розділ v • журнал спостережень</span>
+      <div class="nav-buttons">
+        <a href="evolution.html" class="nav-button">← подальша еволюція</a>
+        <a href="chemical-evolution-and-conclusions.html" class="nav-button">хімічна еволюція →</a>
+      </div>
+    </div>
+    
+    <!-- title -->
+    <h1>нуклеосинтез важких елементів: процеси захоплення нейтронів та протонів</h1>
+    
+    <div class="content-columns">
+      <p>викладена вище картина термоядерних перетворень пояснює походження елементів до залізного піка. однак утворення ядер хімічних елементів, важчих за залізо і нікель, вимагає принципово інакших механізмів². оскільки кулонівський бар'єр для таких ядер є непереборним за будь-яких реалістичних температур, природа застосовує процеси захоплення нейтронів². нейтрон є електрично нейтральним, тому він не відчуває кулонівського відштовхування і здатен проникати всередину навіть найважчих атомних ядер при мінімальних кінетичних енергіях. залежно від інтенсивності нейтронного потоку розрізняють два основні механізми: s-процес та r-процес².</p>
+    </div>
+    
+    <!-- INTERACTIVE PROCESS SELECTOR -->
+    <div class="process-selector">
+      <button class="process-btn active" data-process="s-process">s-процес (повільний)</button>
+      <button class="process-btn" data-process="r-process">r-процес (швидкий)</button>
+      <button class="process-btn" data-process="rp-process">rp-процес (протонний)</button>
+      <button class="process-btn" data-process="p-process">p-процес (фотодезінтеграція)</button>
+      <button class="process-btn" data-process="cejSN">cejSN (джети)</button>
+    </div>
+    
+    <!-- INTERACTIVE CANVAS ILLUSTRATION -->
+    <div class="illustration-container" id="illustrationContainer">
+      <div class="illustration-title" id="illustrationTitle">
+        <span>●</span> s-процес (повільне захоплення нейтронів) <span>●</span>
+      </div>
+      <div class="illustration-canvas">
+        <canvas id="processCanvas" width="900" height="350"></canvas>
+      </div>
+      <div class="illustration-caption" id="illustrationCaption">
+        ядро захоплює нейтрони повільно — між захопленнями встигає відбутися бета-розпад.
+      </div>
+    </div>
+    
+    <!-- DYNAMIC INFO PANEL -->
+    <div class="info-panel" id="infoPanel">
+      <p><span class="label">середовище:</span> AGB-зорі (асимптотична гілка гігантів)</p>
+      <p><span class="label">джерела нейтронів:</span> ¹³C(α,n)¹⁶O та ²²Ne(α,n)²⁵Mg</p>
+      <p><span class="label">швидкість:</span> τ<sub>β</sub> ≪ τ<sub>захоплення</sub> (роки між захопленнями)</p>
+      <p><span class="label">синтезовані елементи:</span> Sr, Y, Zr, Ba, La, Pb, Bi</p>
+    </div>
+    
+    <!-- EQUATIONS SECTION -->
+    <div class="equation-block" id="equationBlock">
+      ¹³c + ⁴he → ¹⁶o + n<br>
+      ²²ne + ⁴he → ²⁵mg + n
+    </div>
+    
+    <!-- S-PROCESS DETAIL SECTION -->
+    <div id="sProcessSection">
+      <h2>s-процес (повільний процес захоплення нейтронів)</h2>
+      
+      <div class="content-columns">
+        <p>повільний процес, або s-процес (від англійського slow), характеризується відносно низьким потоком теплових нейтронів. ключова ознака цього процесу полягає в тому, що середній час між послідовними актами захоплення нейтрона одним ядром вимірюється роками або десятиліттями. ця обставина має вирішальне значення для динаміки нуклеосинтезу: якщо ядро після захоплення нейтрона стає радіоактивним бета-нестабільним ізотопом, воно майже гарантовано встигне зазнати бета-мінус розпаду (перетворивши нейтрон на протон, з випромінюванням електрона та антинейтрино) ще до того, як зустріне наступний нейтрон.</p>
+        
+        <p>шлях s-процесу на діаграмі нуклідів (графіку залежності кількості протонів від кількості нейтронів) строго пролягає вздовж так званої "долини бета-стабільності". ядро поглинає нейтрони, стає важчим ізотопом того ж елемента, розпадається, перетворюючись на наступний елемент у періодичній таблиці, і знову починає поглинати нейтрони. основним середовищем для протікання s-процесу є зорі асимптотичної гілки гігантів (AGB-зорі) — маломасивні зорі на пізніх стадіях еволюції, що мають подвійні шарові джерела горіння (гелієве та водневе).</p>
+        
+        <p>саме s-процес відповідальний за синтез приблизно половини всіх ізотопів, важчих за залізо, зокрема таких елементів як стронцій, цирконій, барій, свинець. однак s-процес має фундаментальні фізичні обмеження. по-перше, він не здатен пробитися крізь "стіну" альфа-нестабільності: досягнувши вісмуту-209, наступне захоплення призводить до полонію-210, який швидко зазнає альфа-розпаду, повертаючи цикл назад до свинцю. по-друге, він оминає стороною велику кількість нейтронно-збагачених ізотопів, які існують у природі.</p>
+      </div>
+    </div>
+    
+    <!-- R-PROCESS SECTION -->
+    <h2>r-процес (швидкий процес захоплення нейтронів)</h2>
+    
+    <div class="content-columns">
+      <p>на противагу s-процесу, r-процес (rapid neutron capture) відбувається в середовищах з екстремально високою густиною нейтронів — понад 10²⁰ нейтронів на кубічний сантиметр. за таких умов ядро-мішень бомбардується нейтронами настільки інтенсивно, що воно встигає захопити десятки нейтронів за частки мілісекунди. бета-розпади просто не встигають відбуватися. ядра розбухають до межі нейтронної нестабільності (neutron drip line), де енергія зв'язку додаткового нейтрона стає нульовою.</p>
+      
+      <p>лише після того, як інтенсивний потік нейтронів вичерпується або навколишнє середовище швидко розширюється і охолоджується, ці екстремально перевантажені нейтронами надважкі ядра зазнають серії каскадних бета-розпадів, поступово переміщуючись до долини стабільності і формуючи стабільні важкі елементи. традиційно вважалося, що основними джерелами r-процесу є вибухи наднових зір з колапсуючим ядром та злиття подвійних нейтронних зір³.</p>
+    </div>
+    
+    <!-- CEJSN HIGHLIGHT -->
+    <div class="cejsn-box">
+      <h4>● cejsn — нове джерело r-процесу</h4>
+      <div class="content-columns">
+        <p>справді, під час злиття нейтронних зір відбувається викид нейтронно-надлишкової матерії (у формі кілонової), де активно протікає r-процес. однак детальні спостереження за металічно-бідними зорями (найдавнішими зорями галактики) виявили суттєві розбіжності між теоретичними моделями та емпіричними даними. зокрема, класичне злиття нейтронних зір не могло адекватно пояснити спостережувані кількості лантаноїдів у цих давніх металічно-бідних зорях³.</p>
+        
+        <p>проблема полягає в тому, що злиття нейтронних зір вимагає мільярдів років еволюції орбіти через випромінювання гравітаційних хвиль, тоді як ранній всесвіт був збагачений лантаноїдами набагато раніше. це вказувало на існування іншого, ще більш стрімкого механізму важкого нуклеосинтезу.</p>
+        
+        <p>розв'язанням цієї фундаментальної проблеми став запропонований новітній сценарій — особливий тип вибуху наднової, відомий як CEJSN (Common Envelope Jets Supernova — наднова з джетами у спільній оболонці)³. ця унікальна подія відбувається в тісних подвійних зоряних системах, які складаються з масивного червоного надгіганта та компактного компаньйона — нейтронної зорі.</p>
+        
+        <p>у міру еволюції червоний надгігант катастрофічно збільшується у розмірах. його розпухла газова оболонка поглинає сусідню орбіту нейтронної зорі. нейтронна зоря опиняється всередині червоного надгіганта. рухаючись крізь щільний газ оболонки, вона втрачає свій орбітальний момент імпульсу внаслідок явища динамічного тертя і починає спіралеподібно падати до ядра гіганта.</p>
+        
+        <p>під час цього занурення гравітаційне поле нейтронної зорі інтенсивно акреціює на себе матерію з оболонки надгіганта. темпи цієї акреції є настільки гіперболічними, що навколо нейтронної зорі утворюється надщільний акреційний диск. взаємодія магнітних полів та шаленого обертання призводить до викиду частини матерії з полюсів диска у вигляді релятивістських струменів — джетів³. ці струмені з величезною енергією прошивають товщу оболонки червоного гіганта назовні.</p>
+        
+        <p>саме всередині цих джетів формуються ідеальні умови для r-процесу: там є необхідна концентрація вільних нейтронів і надвисока температура. дослідники дійшли висновку, що сценарій CEJSN може ефективно створювати найбільш поширені елементи, важчі за лантаноїди, у необхідних пропорціях і на дуже ранніх етапах існування галактики³.</p>
+      </div>
+    </div>
+    
+    <!-- RP-PROCESS SECTION -->
+    <h2>rp-процес (швидкий процес захоплення протонів)</h2>
+    
+    <div class="content-columns">
+      <p>поза межами звичного нейтронного синтезу, астрофізична теорія виділяє утворення надважких хімічних елементів через rp-процес (rapid proton capture)². цей механізм локалізується переважно в екстремальних умовах подвійних зоряних систем, де компактний об'єкт (переважно нейтронна зоря або білий карлик) здійснює акрецію речовини з багатої на водень оболонки свого компаньйона.</p>
+      
+      <p>коли накопичений шар водню на поверхні нейтронної зорі досягає критичної маси та температури, відбувається термоядерний вибух, який спостерігається астрономами як спалах рентгенівського випромінювання (рентгенівський барстер). у цій киплячій плазмі концентрація вільних протонів настільки велика, а температура настільки екстремальна, що важкі ядра починають масово захоплювати протони, долаючи кулонівський бар'єр. швидкість захоплення значно перевищує швидкість бета-плюс розпадів, що призводить до формування дуже рідкісних ізотопів, які лежать поблизу "протонної лінії скидання" (proton drip line).</p>
+    </div>
+    
+    <!-- NUCLEI CHART VISUALIZATION -->
+    <div class="nuclei-chart">
+      <div class="chart-title">рис. — шляхи нуклеосинтезу на діаграмі нуклідів (N-Z площина)</div>
+      <canvas id="nucleiChartCanvas" width="900" height="400"></canvas>
+      <div class="illustration-caption">
+        s-процес прямує вздовж долини стабільності. r-процес заходить далеко в нейтронно-надлишкову область. rp-процес рухається вздовж протонно-надлишкової сторони.
+      </div>
+    </div>
+    
+    <!-- SUMMARY TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>тип процесу</th>
+          <th>основне середовище локалізації</th>
+          <th>характер швидкості</th>
+          <th>типові синтезовані елементи</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>s-процес (нейтрони)</td><td>AGB-зорі (асимптотична гілка гігантів)</td><td>τ<sub>β</sub> ≪ τ<sub>захоплення</sub></td><td>Sr, Y, Zr, Ba, Pb</td></tr>
+        <tr><td>r-процес (нейтрони)</td><td>злиття нейтронних зір, CEJSN</td><td>τ<sub>β</sub> ≫ τ<sub>захоплення</sub></td><td>Au, Pt, U, Th, лантаноїди</td></tr>
+        <tr><td>rp-процес (протони)</td><td>рентгенівські спалахи на акрецюючих об'єктах</td><td>швидке захоплення протонів</td><td>багаті на протони ізотопи</td></tr>
+        <tr><td>p-процес (гамма)</td><td>наднові зорі (руйнування важких ядер)</td><td>фотодезінтеграція</td><td>рідкісні обійдені ізотопи</td></tr>
+      </tbody>
+    </table>
+    
+    <!-- footer navigation -->
+    <div class="footer-nav">
+      <a href="evolution.html" class="nav-button">← подальша еволюція</a>
+      <a href="chemical-evolution-and-conclusions.html" class="nav-button">хімічна еволюція →</a>
+    </div>
+  </article>
+  
+  <script>
+    (function() {
+      'use strict';
+      
+      // process data for interactive illustrations
+      const processes = {
+        's-process': {
+          name: 's-процес (повільне захоплення нейтронів)',
+          color: '#3a5a8b',
+          accentColor: '#2c3e50',
+          caption: 'ядро захоплює нейтрони повільно — між захопленнями встигає відбутися бета-розпад.',
+          equations: '¹³c + ⁴he → ¹⁶o + n<br>²²ne + ⁴he → ²⁵mg + n',
+          info: {
+            environment: 'AGB-зорі (асимптотична гілка гігантів)',
+            sources: '¹³C(α,n)¹⁶O та ²²Ne(α,n)²⁵Mg',
+            speed: 'τ<sub>β</sub> ≪ τ<sub>захоплення</sub> (роки між захопленнями)',
+            products: 'Sr, Y, Zr, Ba, La, Pb, Bi'
+          }
+        },
+        'r-process': {
+          name: 'r-процес (швидке захоплення нейтронів)',
+          color: '#8b3a3a',
+          accentColor: '#5c2020',
+          caption: 'лавина нейтронів — десятки захоплень за мілісекунди, потім каскад бета-розпадів.',
+          equations: 'n + n + n ... → надважкі ядра → β⁻-розпади → стабільні ізотопи',
+          info: {
+            environment: 'злиття нейтронних зір, CEJSN, колапсуючі наднові',
+            sources: 'екстремальний нейтронний потік (>10²⁰ n/cm³)',
+            speed: 'τ<sub>β</sub> ≫ τ<sub>захоплення</sub> (мілісекунди)',
+            products: 'Au, Pt, U, Th, Eu, лантаноїди'
+          }
+        },
+        'rp-process': {
+          name: 'rp-процес (швидке захоплення протонів)',
+          color: '#27ae60',
+          accentColor: '#1e8449',
+          caption: 'масове захоплення протонів у термоядерних вибухах на поверхні нейтронних зір.',
+          equations: '(p,γ) та β⁺-розпади → протонно-надлишкові ядра',
+          info: {
+            environment: 'рентгенівські барстери, акрецюючі нейтронні зорі',
+            sources: 'термоядерний вибух водневого шару',
+            speed: 'швидке захоплення протонів',
+            products: 'багаті на протони ізотопи до A~100'
+          }
+        },
+        'p-process': {
+          name: 'p-процес (фотодезінтеграція)',
+          color: '#8e44ad',
+          accentColor: '#6c3483',
+          caption: 'високоенергетичні фотони руйнують важкі ядра, створюючи рідкісні ізотопи.',
+          equations: 'γ + ядро → (γ,n), (γ,p), (γ,α) реакції',
+          info: {
+            environment: 'вибухи наднових (зовнішні шари)',
+            sources: 'високоенергетичні гамма-кванти',
+            speed: 'фоторуйнування',
+            products: 'рідкісні p-ізотопи (обійдені s- та r-процесами)'
+          }
+        },
+        'cejSN': {
+          name: 'cejSN — наднова з джетами у спільній оболонці',
+          color: '#c0392b',
+          accentColor: '#922b21',
+          caption: 'нейтронна зоря всередині червоного надгіганта створює релятивістські джети з r-процесом.',
+          equations: 'акреція → джети → r-процес → лантаноїди',
+          info: {
+            environment: 'спільна оболонка червоного надгіганта + нейтронна зоря',
+            sources: 'акреційний диск навколо нейтронної зорі',
+            speed: 'релятивістські джети',
+            products: 'лантаноїди, важкі r-процесні елементи'
+          }
+        }
+      };
+      
+      const canvas = document.getElementById('processCanvas');
+      const ctx = canvas.getContext('2d');
+      const nucleiCanvas = document.getElementById('nucleiChartCanvas');
+      const nucleiCtx = nucleiCanvas.getContext('2d');
+      
+      const titleEl = document.getElementById('illustrationTitle');
+      const captionEl = document.getElementById('illustrationCaption');
+      const infoPanel = document.getElementById('infoPanel');
+      const equationBlock = document.getElementById('equationBlock');
+      
+      let currentProcess = 's-process';
+      
+      // draw process illustration
+      function drawProcess(processId) {
+        const proc = processes[processId];
+        if (!proc) return;
+        
+        titleEl.innerHTML = `<span>●</span> ${proc.name} <span>●</span>`;
+        captionEl.textContent = proc.caption;
+        
+        infoPanel.innerHTML = `
+          <p><span class="label">середовище:</span> ${proc.info.environment}</p>
+          <p><span class="label">джерела:</span> ${proc.info.sources}</p>
+          <p><span class="label">швидкість:</span> ${proc.info.speed}</p>
+          <p><span class="label">синтезовані елементи:</span> ${proc.info.products}</p>
+        `;
+        
+        equationBlock.innerHTML = proc.equations;
+        
+        drawCanvas(proc);
+      }
+      
+      function drawCanvas(proc) {
+        ctx.clearRect(0, 0, 900, 350);
+        
+        const cx = 450;
+        const cy = 175;
+        
+        if (proc === processes['s-process']) {
+          drawSProcess(ctx, cx, cy, proc);
+        } else if (proc === processes['r-process']) {
+          drawRProcess(ctx, cx, cy, proc);
+        } else if (proc === processes['rp-process']) {
+          drawRpProcess(ctx, cx, cy, proc);
+        } else if (proc === processes['p-process']) {
+          drawPProcess(ctx, cx, cy, proc);
+        } else if (proc === processes['cejSN']) {
+          drawCEJSN(ctx, cx, cy, proc);
+        }
+      }
+      
+      function drawSProcess(ctx, cx, cy, proc) {
+        // AGB star background
+        ctx.beginPath();
+        ctx.arc(cx, cy, 120, 0, 2 * Math.PI);
+        ctx.fillStyle = '#f4d03f';
+        ctx.globalAlpha = 0.1;
+        ctx.fill();
+        ctx.globalAlpha = 0.3;
+        ctx.strokeStyle = '#d4a017';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        
+        // stepwise path
+        ctx.beginPath();
+        ctx.moveTo(150, cy);
+        ctx.lineTo(220, cy - 30);
+        ctx.lineTo(290, cy - 20);
+        ctx.lineTo(360, cy - 50);
+        ctx.lineTo(430, cy - 40);
+        ctx.lineTo(500, cy - 70);
+        ctx.lineTo(570, cy - 60);
+        ctx.lineTo(640, cy - 80);
+        ctx.lineTo(710, cy - 70);
+        ctx.strokeStyle = proc.color;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        
+        // nuclei circles along path
+        const positions = [
+          [150, cy], [220, cy-30], [290, cy-20], [360, cy-50], 
+          [430, cy-40], [500, cy-70], [570, cy-60], [640, cy-80]
+        ];
+        
+        positions.forEach((pos, i) => {
+          ctx.beginPath();
+          ctx.arc(pos[0], pos[1], 12, 0, 2 * Math.PI);
+          ctx.fillStyle = proc.color;
+          ctx.globalAlpha = 0.3 + i * 0.05;
+          ctx.fill();
+          ctx.globalAlpha = 0.8;
+          ctx.strokeStyle = proc.accentColor;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        });
+        
+        ctx.globalAlpha = 1.0;
+        ctx.font = '10px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#1a1e24';
+        ctx.textAlign = 'center';
+        ctx.fillText('⁵⁶Fe', 150, cy - 20);
+        ctx.fillText('n', 185, cy - 35);
+        ctx.fillText('n', 255, cy - 35);
+        ctx.fillText('β⁻', 325, cy - 65);
+        ctx.fillText('n', 395, cy - 55);
+        ctx.fillText('n', 465, cy - 85);
+        ctx.fillText('β⁻', 535, cy - 75);
+        ctx.fillText('²⁰⁸Pb', 640, cy - 95);
+        
+        // labels
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#3a404a';
+        ctx.fillText('долина бета-стабільності', cx, cy - 120);
+        ctx.fillText('повільний шлях', cx + 200, cy - 100);
+      }
+      
+      function drawRProcess(ctx, cx, cy, proc) {
+        // neutron star merger background
+        ctx.beginPath();
+        ctx.arc(cx - 80, cy, 60, 0, 2 * Math.PI);
+        ctx.fillStyle = '#3498db';
+        ctx.globalAlpha = 0.15;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + 80, cy, 60, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+        
+        // rapid neutron capture phase
+        ctx.beginPath();
+        ctx.moveTo(100, cy);
+        ctx.lineTo(180, cy - 20);
+        ctx.lineTo(260, cy - 60);
+        ctx.lineTo(340, cy - 100);
+        ctx.lineTo(420, cy - 120);
+        ctx.strokeStyle = proc.color;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        
+        // beta decay cascade
+        ctx.beginPath();
+        ctx.moveTo(420, cy - 120);
+        ctx.lineTo(500, cy - 80);
+        ctx.lineTo(580, cy - 40);
+        ctx.lineTo(660, cy - 10);
+        ctx.lineTo(740, cy);
+        ctx.strokeStyle = '#e67e22';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 4]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // neutron cloud
+        for (let i = 0; i < 20; i++) {
+          ctx.beginPath();
+          ctx.arc(200 + i * 15, cy - 30 + Math.sin(i) * 15, 3, 0, 2 * Math.PI);
+          ctx.fillStyle = '#3a5a8b';
+          ctx.globalAlpha = 0.5;
+          ctx.fill();
+        }
+        
+        ctx.globalAlpha = 1.0;
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#1a1e24';
+        ctx.textAlign = 'center';
+        ctx.fillText('лавина нейтронів', 250, cy - 140);
+        ctx.fillText('каскад β⁻-розпадів', 550, cy - 130);
+        
+        // products
+        ctx.font = 'bold 11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = proc.accentColor;
+        ctx.fillText('Au, Pt, U, Th', cx + 200, cy + 30);
+      }
+      
+      function drawRpProcess(ctx, cx, cy, proc) {
+        // neutron star with accretion disk
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, 100, 30, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ecf0f1';
+        ctx.globalAlpha = 0.15;
+        ctx.fill();
+        ctx.strokeStyle = '#7f8c8d';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.arc(cx, cy, 30, 0, 2 * Math.PI);
+        ctx.fillStyle = '#2c3e50';
+        ctx.globalAlpha = 0.5;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+        
+        // proton capture path
+        ctx.beginPath();
+        ctx.moveTo(150, cy + 20);
+        ctx.lineTo(230, cy - 10);
+        ctx.lineTo(310, cy - 40);
+        ctx.lineTo(390, cy - 70);
+        ctx.lineTo(470, cy - 100);
+        ctx.lineTo(550, cy - 120);
+        ctx.strokeStyle = proc.color;
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        
+        // proton markers
+        for (let i = 0; i < 8; i++) {
+          ctx.beginPath();
+          ctx.arc(190 + i * 50, cy - 10 - i * 15, 6, 0, 2 * Math.PI);
+          ctx.fillStyle = '#e74c3c';
+          ctx.globalAlpha = 0.4;
+          ctx.fill();
+          ctx.font = '10px "IBM Plex Mono", monospace';
+          ctx.fillStyle = '#1a1e24';
+          ctx.globalAlpha = 1.0;
+          ctx.fillText('p', 187 + i * 50, cy - 7 - i * 15);
+        }
+        
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#3a404a';
+        ctx.fillText('протонна лінія скидання', 400, cy - 150);
+      }
+      
+      function drawPProcess(ctx, cx, cy, proc) {
+        // supernova shock wave
+        ctx.beginPath();
+        ctx.arc(cx, cy, 100, 0, 2 * Math.PI);
+        ctx.fillStyle = '#f39c12';
+        ctx.globalAlpha = 0.08;
+        ctx.fill();
+        
+        // gamma rays breaking nuclei
+        for (let i = 0; i < 6; i++) {
+          ctx.beginPath();
+          ctx.moveTo(100 + i * 30, 50 + i * 20);
+          ctx.lineTo(250 + i * 40, 150 - i * 10);
+          ctx.strokeStyle = '#f1c40f';
+          ctx.globalAlpha = 0.6;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+        }
+        
+        // nucleus being broken
+        ctx.beginPath();
+        ctx.arc(cx + 100, cy - 20, 25, 0, 2 * Math.PI);
+        ctx.fillStyle = '#8e44ad';
+        ctx.globalAlpha = 0.3;
+        ctx.fill();
+        ctx.strokeStyle = '#6c3483';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // fragments
+        ctx.beginPath();
+        ctx.arc(cx + 160, cy - 50, 10, 0, 2 * Math.PI);
+        ctx.fillStyle = '#9b59b6';
+        ctx.globalAlpha = 0.4;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + 180, cy - 10, 10, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + 150, cy + 20, 8, 0, 2 * Math.PI);
+        ctx.fill();
+        
+        ctx.globalAlpha = 1.0;
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#1a1e24';
+        ctx.fillText('γ', 200, 100);
+        ctx.fillText('фотодезінтеграція', 300, 80);
+        ctx.fillText('n', 185, -45);
+        ctx.fillText('p', 205, -5);
+        ctx.fillText('α', 175, 25);
+      }
+      
+      function drawCEJSN(ctx, cx, cy, proc) {
+        // red supergiant envelope
+        ctx.beginPath();
+        ctx.arc(cx, cy, 130, 0, 2 * Math.PI);
+        ctx.fillStyle = '#e74c3c';
+        ctx.globalAlpha = 0.08;
+        ctx.fill();
+        ctx.strokeStyle = '#c0392b';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        
+        // neutron star in center
+        ctx.beginPath();
+        ctx.arc(cx - 20, cy, 15, 0, 2 * Math.PI);
+        ctx.fillStyle = '#2c3e50';
+        ctx.globalAlpha = 0.6;
+        ctx.fill();
+        
+        // accretion disk
+        ctx.beginPath();
+        ctx.ellipse(cx - 20, cy, 50, 12, -0.2, 0, 2 * Math.PI);
+        ctx.fillStyle = '#f39c12';
+        ctx.globalAlpha = 0.2;
+        ctx.fill();
+        ctx.strokeStyle = '#e67e22';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // jets
+        ctx.beginPath();
+        ctx.moveTo(cx - 40, cy - 25);
+        ctx.lineTo(cx - 150, cy - 130);
+        ctx.lineTo(cx - 120, cy - 140);
+        ctx.closePath();
+        ctx.fillStyle = '#3498db';
+        ctx.globalAlpha = 0.5;
+        ctx.fill();
+        
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + 20);
+        ctx.lineTo(cx + 120, cy + 130);
+        ctx.lineTo(cx + 100, cy + 140);
+        ctx.closePath();
+        ctx.fill();
+        
+        ctx.globalAlpha = 1.0;
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#1a1e24';
+        ctx.textAlign = 'center';
+        ctx.fillText('червоний надгігант', cx, cy - 160);
+        ctx.fillText('нейтронна зоря', cx - 20, cy - 40);
+        ctx.fillText('джет', cx - 100, cy - 100);
+        ctx.fillText('r-процес у джетах', cx - 100, cy + 80);
+      }
+      
+      function drawNucleiChart() {
+        nucleiCtx.clearRect(0, 0, 900, 400);
+        
+        const cx = 450;
+        const cy = 200;
+        
+        // axes
+        nucleiCtx.beginPath();
+        nucleiCtx.moveTo(80, 50);
+        nucleiCtx.lineTo(80, 350);
+        nucleiCtx.lineTo(850, 350);
+        nucleiCtx.strokeStyle = '#d4d9e0';
+        nucleiCtx.lineWidth = 1;
+        nucleiCtx.stroke();
+        
+        // stability valley
+        nucleiCtx.beginPath();
+        nucleiCtx.moveTo(100, 300);
+        nucleiCtx.lineTo(200, 250);
+        nucleiCtx.lineTo(350, 200);
+        nucleiCtx.lineTo(550, 160);
+        nucleiCtx.lineTo(750, 130);
+        nucleiCtx.strokeStyle = '#1a1e24';
+        nucleiCtx.lineWidth = 2;
+        nucleiCtx.stroke();
+        
+        // s-process path
+        nucleiCtx.beginPath();
+        nucleiCtx.moveTo(120, 290);
+        nucleiCtx.lineTo(220, 240);
+        nucleiCtx.lineTo(370, 190);
+        nucleiCtx.lineTo(570, 150);
+        nucleiCtx.lineTo(770, 120);
+        nucleiCtx.strokeStyle = '#3a5a8b';
+        nucleiCtx.lineWidth = 2.5;
+        nucleiCtx.stroke();
+        
+        // r-process path (neutron-rich)
+        nucleiCtx.beginPath();
+        nucleiCtx.moveTo(150, 310);
+        nucleiCtx.lineTo(280, 280);
+        nucleiCtx.lineTo(450, 250);
+        nucleiCtx.lineTo(650, 220);
+        nucleiCtx.lineTo(800, 200);
+        nucleiCtx.strokeStyle = '#8b3a3a';
+        nucleiCtx.lineWidth = 2;
+        nucleiCtx.setLineDash([6, 4]);
+        nucleiCtx.stroke();
+        nucleiCtx.setLineDash([]);
+        
+        // rp-process path (proton-rich)
+        nucleiCtx.beginPath();
+        nucleiCtx.moveTo(100, 270);
+        nucleiCtx.lineTo(200, 220);
+        nucleiCtx.lineTo(350, 170);
+        nucleiCtx.lineTo(550, 130);
+        nucleiCtx.lineTo(750, 100);
+        nucleiCtx.strokeStyle = '#27ae60';
+        nucleiCtx.lineWidth = 2;
+        nucleiCtx.setLineDash([6, 4]);
+        nucleiCtx.stroke();
+        nucleiCtx.setLineDash([]);
+        
+        // labels
+        nucleiCtx.font = '10px "IBM Plex Mono", monospace';
+        nucleiCtx.fillStyle = '#3a5a8b';
+        nucleiCtx.fillText('s-процес', 600, 140);
+        nucleiCtx.fillStyle = '#8b3a3a';
+        nucleiCtx.fillText('r-процес', 650, 210);
+        nucleiCtx.fillStyle = '#27ae60';
+        nucleiCtx.fillText('rp-процес', 600, 90);
+        nucleiCtx.fillStyle = '#1a1e24';
+        nucleiCtx.fillText('долина стабільності', 400, 175);
+        
+        // axis labels
+        nucleiCtx.font = '11px "IBM Plex Serif", serif';
+        nucleiCtx.fillStyle = '#3a404a';
+        nucleiCtx.textAlign = 'center';
+        nucleiCtx.fillText('кількість нейтронів N →', 450, 380);
+        nucleiCtx.save();
+        nucleiCtx.translate(50, 200);
+        nucleiCtx.rotate(-Math.PI/2);
+        nucleiCtx.fillText('кількість протонів Z →', 0, 0);
+        nucleiCtx.restore();
+      }
+      
+      // process button handlers
+      const buttons = document.querySelectorAll('.process-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          buttons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const processId = this.dataset.process;
+          currentProcess = processId;
+          
+          drawProcess(processId);
+          
+          document.getElementById('illustrationContainer').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+          });
+        });
+      });
+      
+      // initialize
+      drawProcess('s-process');
+      drawNucleiChart();
+      
+      window.addEventListener('resize', function() {
+        drawProcess(currentProcess);
+        drawNucleiChart();
+      });
+    })();
+  </script>
+</body>
+</html>

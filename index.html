@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>зоряний нуклеосинтез • обсерваторний журнал</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* full-width laptop reading — expansive, calm, observatory log */
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    article {
+      max-width: 90%;
+      width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 4rem 5rem 4rem;
+    }
+    
+    /* even wider on large laptop screens */
+    @media (min-width: 1600px) {
+      article {
+        max-width: 85%;
+        width: 1500px;
+        padding: 3.5rem 5rem 6rem 5rem;
+      }
+    }
+    
+    @media (min-width: 1920px) {
+      article {
+        max-width: 80%;
+        width: 1600px;
+      }
+    }
+    
+    /* two-column reading for very wide screens — still calm, editorial */
+    @media (min-width: 1400px) {
+      .content-columns {
+        column-count: 2;
+        column-gap: 3.5rem;
+        column-rule: 1px solid var(--rule);
+      }
+      
+      .content-columns p {
+        break-inside: avoid;
+      }
+      
+      h2 {
+        column-span: all;
+      }
+      
+      .equation-block {
+        column-span: all;
+      }
+    }
+    
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1rem;
+    }
+    
+    .nav-button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 1rem;
+      border-radius: 0;
+      background: transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      letter-spacing: 0.01em;
+    }
+    
+    .nav-button:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .chapter-marker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+    
+    .intro-graf {
+      margin-bottom: 2.5rem;
+      font-style: normal;
+    }
+    
+    /* equation blocks — photograph treatment, span full width */
+    .equation-block {
+      display: block;
+      margin: 3rem 0;
+      padding: 2.5rem 2rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      font-family: 'IBM Plex Mono', 'STIX Two Math', 'Cambria Math', monospace;
+      font-size: 1.2rem;
+      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    sup, sub {
+      font-size: 0.7rem;
+      line-height: 0;
+    }
+    
+    .footer-nav {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: flex-end;
+    }
+    
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+    
+    h1 {
+      max-width: none;
+      margin-bottom: 2rem;
+    }
+    
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    /* first paragraph after h2 — drop cap treatment */
+    h2 + p::first-letter {
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.08em;
+      font-weight: 400;
+      color: var(--accent);
+      font-family: 'IBM Plex Serif', serif;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <!-- navigation header with button to cycle.html -->
+    <div class="nav-header">
+      <span class="chapter-marker">розділ і • журнал спостережень</span>
+      <a href="cycle.html" class="nav-button">→ водневий цикл</a>
+    </div>
+    
+    <!-- title exactly as in file, lowercase -->
+    <h1>фізика зоряного нуклеосинтезу: еволюційна парадигма та хімічна динаміка астрофізичних об'єктів</h1>
+    
+    <!-- introduction text -->
+    <p class="intro-graf">дослідження походження хімічних елементів у всесвіті становить одну з найбільш фундаментальних проблем сучасної астрофізики та ядерної фізики. зоряний нуклеосинтез являє собою складний, багатоетапний комплекс термоядерних реакцій, що безперервно протікають у глибоких надрах зір на різних етапах їхньої еволюції. для того, щоб скласти вичерпне уявлення про механізми трансформації легких ядер у важчі ізотопи, необхідно детально проаналізувати фізичні умови, які уможливлюють перебіг цих реакцій.</p>
+    
+    <!-- section heading exactly as specified -->
+    <h2>фундаментальні засади зоряної структури та термодинаміки плазми</h2>
+    
+    <div class="content-columns">
+      <p>основою існування будь-якого зоряного об'єкта є стан суворої гідростатичної рівноваги. цей стан визначається як динамічний баланс між силами гравітаційного стискання, що генеруються колосальною масою зорі та спрямовані до її геометричного центру, і градієнтом внутрішнього тиску, який протидіє гравітаційному колапсу. внутрішній тиск формується переважно двома компонентами: тиском ідеального газу (плазми) та тиском електромагнітного випромінювання (радіаційним тиском). означена рівновага математично описується класичним диференціальним рівнянням гідростатики:</p>
+    </div>
+    
+    <div class="equation-block">
+      dp/dr = - (G · m(r) · ρ(r)) / r²
+    </div>
+    
+    <div class="content-columns">
+      <p>де p позначає загальний тиск у заданій точці, g — гравітаційну сталу, m(r) — масу, зосереджену всередині сферичної області радіуса r, а ρ(r) — локальну густину зоряної речовини. для підтримання високого тиску в центральних областях зорі вимагається наявність екстремально високої температури. ця температура компенсує неминучі втрати енергії, що транспортується з ядра до поверхні (шляхом променевого переносу або конвекції) та випромінюється у відкритий космос.</p>
+      
+      <p>єдиним джерелом енергії, здатним забезпечувати стабільність зорі протягом мільйонів та мільярдів років, є термоядерні реакції. інтенсивність генерації енергії, яку позначають через ε, є нелінійною функцією температури та густини. саме ця функціональна залежність виступає критичним фактором, що детермінує послідовність та тривалість різних етапів нуклеосинтезу.</p>
+      
+      <p>протікання ядерних реакцій у зоряній плазмі суттєво ускладнюється наявністю кулонівського бар'єра — потужного електростатичного відштовхування між позитивно зарядженими атомними ядрами. класична термодинаміка, що базується на розподілі максвелла-больцмана, не здатна пояснити феномен злиття ядер при тих температурах, які фактично існують у центрі зір (близько 10⁷ кельвінів для водневого горіння). середня кінетична енергія частинок за таких умов становить лише кілька кілоелектронвольт, що на два-три порядки нижче за висоту кулонівського бар'єра, яка вимірюється в мегаелектронвольтах.</p>
+      
+      <p>термоядерний синтез стає фізично можливим виключно завдяки квантово-механічному ефекту тунелювання. згідно з принципами квантової механіки, існує ненульова ймовірність того, що частинка подолає потенційний бар'єр, навіть якщо її класична кінетична енергія є недостатньою. ця ймовірність експоненційно залежить від енергії частинок та заряду ядер. ефективний переріз реакції σ(e) розраховується з урахуванням астрофізичного s-фактора s(e) та фактора гамова e<sub>g</sub>:</p>
+    </div>
+    
+    <div class="equation-block">
+      σ(e) = (s(e) / e) · exp( -√(e<sub>g</sub> / e) )
+    </div>
+    
+    <div class="content-columns">
+      <p>згортка функції ймовірності квантового тунелювання (яка зростає з енергією) та максвеллівського розподілу енергій частинок (який експоненційно спадає) формує вузький діапазон енергій, відомий як пік гамова. саме в межах цього вузького енергетичного вікна відбувається переважна більшість термоядерних взаємодій. квантовий механізм тунелювання діє як фундаментальний регулятор швидкості перебігу реакцій, оберігаючи зорю від миттєвого ядерного вибуху та визначаючи темпи її еволюційного старіння.</p>
+    </div>
+    
+    <!-- footer navigation to next chapter -->
+    <div class="footer-nav">
+      <a href="cycle.html" class="nav-button">→ продовжити: водневий цикл</a>
+    </div>
+  </article>
+</body>
+</html>

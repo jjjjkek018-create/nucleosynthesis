@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>подальша еволюція • зоряний нуклеосинтез</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    article {
+      max-width: 90%;
+      width: 1400px;
+      margin: 0 auto;
+      padding: 3rem 4rem 5rem 4rem;
+    }
+    
+    @media (min-width: 1600px) {
+      article {
+        max-width: 85%;
+        width: 1500px;
+        padding: 3.5rem 5rem 6rem 5rem;
+      }
+    }
+    
+    @media (min-width: 1920px) {
+      article {
+        max-width: 80%;
+        width: 1600px;
+      }
+    }
+    
+    @media (min-width: 1400px) {
+      .content-columns {
+        column-count: 2;
+        column-gap: 3.5rem;
+        column-rule: 1px solid var(--rule);
+      }
+      
+      .content-columns p {
+        break-inside: avoid;
+      }
+      
+      h2, h3 {
+        column-span: all;
+      }
+      
+      .equation-block,
+      .illustration-container,
+      .onion-container,
+      .stage-selector,
+      table {
+        column-span: all;
+      }
+    }
+    
+    .nav-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 1rem;
+    }
+    
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .nav-button {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.85rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      color: var(--ink-light);
+      border: 1px solid var(--rule);
+      padding: 0.35rem 1rem;
+      border-radius: 0;
+      background: transparent;
+      transition: border-color 0.15s ease, color 0.15s ease;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+    }
+    
+    .nav-button:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    .chapter-marker {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      text-transform: lowercase;
+      letter-spacing: 0.04em;
+    }
+    
+    /* stage selector — interactive navigation */
+    .stage-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 2.5rem 0 2rem 0;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    
+    .stage-btn {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border-radius: 0;
+      letter-spacing: 0.03em;
+    }
+    
+    .stage-btn:hover {
+      border-color: var(--accent);
+      color: var(--ink);
+    }
+    
+    .stage-btn.active {
+      background: var(--ink);
+      color: var(--paper);
+      border-color: var(--ink);
+    }
+    
+    /* illustration container */
+    .illustration-container {
+      margin: 3rem 0;
+      padding: 2.5rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    .illustration-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .illustration-title span {
+      color: var(--accent);
+    }
+    
+    .illustration-canvas {
+      display: block;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      image-rendering: crisp-edges;
+    }
+    
+    .illustration-caption {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-top: 1.5rem;
+      text-align: center;
+      font-style: italic;
+    }
+    
+    /* onion structure — static masterpiece */
+    .onion-container {
+      margin: 3rem 0;
+      padding: 2.5rem 1.5rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+    }
+    
+    .onion-title {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.8rem;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    /* info panel */
+    .info-panel {
+      margin: 2rem 0;
+      padding: 1.5rem;
+      border-left: 2px solid var(--accent);
+      background: rgba(139, 58, 58, 0.03);
+    }
+    
+    .info-panel p {
+      margin: 0;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .info-panel .label {
+      color: var(--accent);
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+    }
+    
+    /* equation blocks */
+    .equation-block {
+      display: block;
+      margin: 3rem 0;
+      padding: 2.5rem 2rem;
+      background-color: var(--equation-bg);
+      border-left: 1px solid var(--rule);
+      border-right: 1px solid var(--rule);
+      font-family: 'IBM Plex Mono', 'STIX Two Math', 'Cambria Math', monospace;
+      font-size: 1.2rem;
+      text-align: center;
+      overflow-x: auto;
+      white-space: nowrap;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.02);
+    }
+    
+    /* tables */
+    table {
+      width: 100%;
+      margin: 2.5rem 0;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      font-family: 'IBM Plex Mono', 'IBM Plex Sans', sans-serif;
+      text-align: left;
+    }
+    
+    th {
+      font-weight: 500;
+      text-transform: lowercase;
+      letter-spacing: 0.05em;
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      padding: 0.75rem 1rem 0.5rem 1rem;
+      border-bottom: 1px solid var(--ink);
+    }
+    
+    td {
+      padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: rgba(0,0,0,0.01);
+    }
+    
+    sup, sub {
+      font-size: 0.7rem;
+      line-height: 0;
+    }
+    
+    .footer-nav {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    p {
+      margin: 0 0 1.5rem 0;
+    }
+    
+    h1 {
+      max-width: none;
+      margin-bottom: 1rem;
+    }
+    
+    h2 {
+      margin-top: 3.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    h3 {
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
+      font-family: 'IBM Plex Serif', serif;
+      font-weight: 500;
+      font-style: italic;
+    }
+    
+    h2 + p::first-letter {
+      font-size: 3.8em;
+      float: left;
+      line-height: 0.75;
+      margin-right: 0.15em;
+      margin-top: 0.08em;
+      font-weight: 400;
+      color: var(--accent);
+      font-family: 'IBM Plex Serif', serif;
+    }
+  </style>
+</head>
+<body>
+  <article>
+    <!-- navigation header -->
+    <div class="nav-header">
+      <span class="chapter-marker">розділ iv • журнал спостережень</span>
+      <div class="nav-buttons">
+        <a href="disruption.html" class="nav-button">← порушення рівноваги</a>
+        <a href="index.html" class="nav-button">початок →</a>
+      </div>
+    </div>
+    
+    <!-- title -->
+    <h1>подальша еволюція масивних зір: від вуглецю до заліза</h1>
+    
+    <div class="content-columns">
+      <p>однак масивні зорі (понад 8-10 мас сонця) мають достатній гравітаційний потенціал. після повного вичерпання гелію в центрі, ядро знову стискається, температура невпинно зростає, долаючи межу у 5 × 10⁸ кельвінів. за таких умов стартує горіння вуглецю¹. цей етап триває від кількох сотень до кількох тисяч років.</p>
+    </div>
+    
+    <!-- INTERACTIVE STAGE SELECTOR -->
+    <div class="stage-selector">
+      <button class="stage-btn active" data-stage="carbon">вуглецеве горіння</button>
+      <button class="stage-btn" data-stage="neon">неонове горіння</button>
+      <button class="stage-btn" data-stage="oxygen">кисневе горіння</button>
+      <button class="stage-btn" data-stage="silicon">кремнієве горіння</button>
+      <button class="stage-btn" data-stage="onion">цибулинна структура</button>
+    </div>
+    
+    <!-- INTERACTIVE CANVAS ILLUSTRATION -->
+    <div class="illustration-container" id="illustrationContainer">
+      <div class="illustration-title" id="illustrationTitle">
+        <span>●</span> вуглецеве горіння <span>●</span>
+      </div>
+      <div class="illustration-canvas">
+        <canvas id="starCanvas" width="800" height="350"></canvas>
+      </div>
+      <div class="illustration-caption" id="illustrationCaption">
+        злиття ядер вуглецю формує неон, натрій та магній. температура ~5×10⁸ K.
+      </div>
+    </div>
+    
+    <!-- DYNAMIC INFO PANEL -->
+    <div class="info-panel" id="infoPanel">
+      <p><span class="label">реакції:</span> ¹²c + ¹²c → ²⁰ne + ⁴he | ¹²c + ¹²c → ²³na + p | ¹²c + ¹²c → ²³mg + n</p>
+      <p><span class="label">тривалість:</span> ~300 років (для зорі 20 M☉)</p>
+      <p><span class="label">продукти:</span> ²⁰Ne, ²³Na, ²⁴Mg</p>
+    </div>
+    
+    <!-- EQUATIONS SECTION -->
+    <div class="equation-block" id="equationBlock">
+      ¹²c + ¹²c → ²⁰ne + ⁴he<br>
+      ¹²c + ¹²c → ²³na + p<br>
+      ¹²c + ¹²c → ²³mg + n
+    </div>
+    
+    <div class="content-columns">
+      <p>наступний етап — горіння неону — запускається при температурі близько 1.2 × 10⁹ кельвінів¹. цікаво, що цей процес якісно відрізняється від попередніх реакцій прямого злиття. за таких температур енергія теплових фотонів стає настільки високою, що вони здатні "розбивати" ядра. цей механізм називається фотодезінтеграцією. гамма-кванти руйнують частину ядер неону на кисень і альфа-частинки. вивільнені альфа-частинки негайно захоплюються іншими ядрами неону, що залишилися, формуючи важчі елементи. завдяки цим реакціям, горіння неону продукує переважно кисень і магній¹. тривалість цієї стадії скорочується до кількох років.</p>
+      
+      <p>коли температура сягає позначки приблизно 1.5 × 10⁹ кельвінів, до реакцій злиття залучається кисень. горіння кисню виробляє цілий спектр елементів проміжної маси, серед яких домінують кремній, сірка, фосфор та аргон¹. цей етап згоряє менш ніж за один рік.</p>
+      
+      <p>кінцевим акордом термоядерної еволюції масивної зорі є стадія горіння кремнію, яка ініціюється при неймовірних температурах — понад 3 × 10⁹ кельвінів¹. фізика кремнієвого горіння надзвичайно складна. це не просте попарне злиття двох ядер кремнію, оскільки кулонівський бар'єр для таких важких ядер є нездоланним навіть за таких температур. замість цього встановлюється стан ядерної статистичної квазірівноваги. масована фотодезінтеграція розщеплює деякі ядра кремнію на альфа-частинки, протони та нейтрони. ця лавина легких нуклонів приєднується до інших, ще не зруйнованих ядер, поступово "нарощуючи" їхню масу. процес просувається вгору по періодичній таблиці, проходячи через сірку, аргон, кальцій, титан, хром, і врешті-решт зупиняється на елементах так званого залізного піка: утворюється залізне ядро, переважно з ізотопу залізо-56 та нікель-56¹.</p>
+    </div>
+    
+    <!-- STATIC ONION STRUCTURE (also shown in interactive mode) -->
+    <div class="onion-container" id="onionStructure">
+      <div class="onion-title">рис. — цибулинна структура масивної зорі перед колапсом</div>
+      <canvas id="onionCanvas" width="800" height="400"></canvas>
+      <div class="illustration-caption">
+        шарувата будова зорі наприкінці життя: залізне ядро, оточене послідовними оболонками горіння кремнію, кисню, неону, вуглецю, гелію та водню.
+      </div>
+    </div>
+    
+    <div class="content-columns">
+      <p>головною характерною ознакою всієї цієї послідовності є катастрофічне скорочення тривалості кожної наступної стадії¹. горіння кремнію у найбільших зорях триває лише кілька днів або навіть годин¹. таке експоненційне прискорення зумовлене не лише зменшенням ефективності виділення енергії на реакцію (оскільки елементи наближаються до піка кривої питомої енергії зв'язку), але й масштабним явищем нейтринного охолодження.</p>
+      
+      <p>при температурах вище мільярда кельвінів термодинамічне середовище продукує електрон-позитронну плазму. анігіляція цих пар призводить до народження нейтрино та антинейтрино. на відміну від фотонів, які безперервно поглинаються і перевипромінюються речовиною зорі (їм потрібні сотні тисяч років, щоб вийти назовні), нейтрино мають мізерний переріз взаємодії. вони миттєво залишають ядро, виносячи колосальні обсяги енергії у космічний простір. щоб компенсувати цей безпрецедентний відтік енергії та підтримати тиск, ядро змушене стискатися і збільшувати швидкість ядерних реакцій в астрономічних масштабах.</p>
+    </div>
+    
+    <!-- SUMMARY TABLE -->
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>стадія горіння</th>
+          <th>основне паливо</th>
+          <th>основні продукти</th>
+          <th>температура (K)</th>
+          <th>тривалість (20 M☉)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>воднева</td><td>¹H</td><td>⁴He</td><td>4×10⁶ – 1.5×10⁷</td><td>10⁷ років</td></tr>
+        <tr><td>гелієва</td><td>⁴He</td><td>¹²C, ¹⁶O</td><td>1×10⁸</td><td>10⁶ років</td></tr>
+        <tr><td>вуглецева</td><td>¹²C</td><td>²⁰Ne, ²³Na, ²⁴Mg</td><td>5×10⁸</td><td>300 років</td></tr>
+        <tr><td>неонова</td><td>²⁰Ne</td><td>¹⁶O, ²⁴Mg</td><td>1.2×10⁹</td><td>6 місяців</td></tr>
+        <tr><td>киснева</td><td>¹⁶O</td><td>²⁸Si, ³²S</td><td>1.5×10⁹</td><td>6 місяців</td></tr>
+        <tr><td>кремнієва</td><td>²⁸Si</td><td>⁵⁶Fe, ⁵⁶Ni</td><td>&gt; 3×10⁹</td><td>1–3 дні</td></tr>
+      </tbody>
+    </table>
+    
+    <div class="content-columns">
+      <p>напередодні свого фіналу структура масивної зорі нагадує шарувату цибулину: у центрі лежить надзвичайно щільне залізне ядро, яке оточене шарами, що послідовно складаються з кремнію, кисню, неону, вуглецю, гелію та зовнішньої розлогої оболонки з незгорілого водню.</p>
+    </div>
+    
+    <!-- footer navigation -->
+<div class="footer-nav">
+  <a href="disruption.html" class="nav-button">← порушення рівноваги</a>
+  <a href="nucleosis.html" class="nav-button">нуклеосинтез важких елементів →</a>
+</div>
+  </article>
+  
+  <script>
+    (function() {
+      'use strict';
+      
+      // stage data for interactive illustrations
+      const stages = {
+        carbon: {
+          name: 'вуглецеве горіння',
+          color: '#e67e22',
+          coreColor: '#d35400',
+          temp: '~5×10⁸ K',
+          caption: 'злиття ядер вуглецю формує неон, натрій та магній. температура ~5×10⁸ K.',
+          equations: '¹²c + ¹²c → ²⁰ne + ⁴he<br>¹²c + ¹²c → ²³na + p<br>¹²c + ¹²c → ²³mg + n',
+          reactions: '¹²c + ¹²c → ²⁰ne + ⁴he | ¹²c + ¹²c → ²³na + p | ¹²c + ¹²c → ²³mg + n',
+          duration: '~300 років (для зорі 20 M☉)',
+          products: '²⁰Ne, ²³Na, ²⁴Mg',
+          coreLabel: 'C → Ne, Na, Mg',
+          shellLabels: ['H', 'He', 'C']
+        },
+        neon: {
+          name: 'неонове горіння',
+          color: '#f39c12',
+          coreColor: '#e67e22',
+          temp: '~1.2×10⁹ K',
+          caption: 'фотодезінтеграція неону з подальшим альфа-захопленням. температура ~1.2×10⁹ K.',
+          equations: '²⁰ne + γ → ¹⁶o + ⁴he<br>²⁰ne + ⁴he → ²⁴mg + γ',
+          reactions: '²⁰Ne + γ → ¹⁶O + ⁴He | ²⁰Ne + ⁴He → ²⁴Mg + γ',
+          duration: '~6 місяців',
+          products: '¹⁶O, ²⁴Mg',
+          coreLabel: 'Ne → O, Mg',
+          shellLabels: ['H', 'He', 'C', 'Ne']
+        },
+        oxygen: {
+          name: 'кисневе горіння',
+          color: '#3498db',
+          coreColor: '#2980b9',
+          temp: '~1.5×10⁹ K',
+          caption: 'злиття ядер кисню продукує кремній, сірку, фосфор та аргон. температура ~1.5×10⁹ K.',
+          equations: '¹⁶o + ¹⁶o → ²⁸si + ⁴he<br>¹⁶o + ¹⁶o → ³¹p + p<br>¹⁶o + ¹⁶o → ³¹s + n<br>¹⁶o + ¹⁶o → ³²s + γ',
+          reactions: '¹⁶O + ¹⁶O → ²⁸Si + ⁴He | ¹⁶O + ¹⁶O → ³¹P + p | ¹⁶O + ¹⁶O → ³¹S + n | ¹⁶O + ¹⁶O → ³²S + γ',
+          duration: '~6 місяців',
+          products: '²⁸Si, ³²S, ³¹P',
+          coreLabel: 'O → Si, S',
+          shellLabels: ['H', 'He', 'C', 'Ne', 'O']
+        },
+        silicon: {
+          name: 'кремнієве горіння',
+          color: '#9b59b6',
+          coreColor: '#8e44ad',
+          temp: '> 3×10⁹ K',
+          caption: 'ядерна статистична квазірівновага — формування елементів залізного піка. температура >3×10⁹ K.',
+          equations: '²⁸si + γ → 7(⁴he)<br>альфа-захоплення → ... → ⁵⁶fe, ⁵⁶ni',
+          reactions: 'фотодезінтеграція + альфа-захоплення → ⁵⁶Fe, ⁵⁶Ni',
+          duration: '1–3 дні',
+          products: '⁵⁶Fe, ⁵⁶Ni (залізний пік)',
+          coreLabel: 'Si → Fe, Ni',
+          shellLabels: ['H', 'He', 'C', 'Ne', 'O', 'Si']
+        },
+        onion: {
+          name: 'цибулинна структура',
+          color: '#c0392b',
+          coreColor: '#1a1e24',
+          temp: 'повний спектр',
+          caption: 'шарувата будова масивної зорі перед гравітаційним колапсом залізного ядра.',
+          equations: 'структура: Fe • Si • O • Ne • C • He • H',
+          reactions: 'повна ієрархія оболонок горіння',
+          duration: 'фінальна стадія',
+          products: 'всі елементи до заліза',
+          coreLabel: 'Fe',
+          shellLabels: ['H', 'He', 'C', 'Ne', 'O', 'Si']
+        }
+      };
+      
+      const canvas = document.getElementById('starCanvas');
+      const ctx = canvas.getContext('2d');
+      const onionCanvas = document.getElementById('onionCanvas');
+      const onionCtx = onionCanvas.getContext('2d');
+      
+      const titleEl = document.getElementById('illustrationTitle');
+      const captionEl = document.getElementById('illustrationCaption');
+      const infoPanel = document.getElementById('infoPanel');
+      const equationBlock = document.getElementById('equationBlock');
+      
+      let currentStage = 'carbon';
+      
+      // draw star illustration based on stage
+      function drawStage(stageId) {
+        const stage = stages[stageId];
+        if (!stage) return;
+        
+        // update title and caption
+        titleEl.innerHTML = `<span>●</span> ${stage.name} <span>●</span>`;
+        captionEl.textContent = stage.caption;
+        
+        // update info panel
+        infoPanel.innerHTML = `
+          <p><span class="label">реакції:</span> ${stage.reactions}</p>
+          <p><span class="label">тривалість:</span> ${stage.duration}</p>
+          <p><span class="label">продукти:</span> ${stage.products}</p>
+        `;
+        
+        // update equation block
+        equationBlock.innerHTML = stage.equations;
+        
+        // draw canvas
+        drawStarCanvas(stage);
+      }
+      
+      function drawStarCanvas(stage) {
+        ctx.clearRect(0, 0, 800, 350);
+        
+        const cx = 400;
+        const cy = 175;
+        
+        if (stage === stages.onion) {
+          drawOnionStructure(ctx, cx, cy);
+          return;
+        }
+        
+        // draw outer envelope (H)
+        ctx.beginPath();
+        ctx.arc(cx, cy, 140, 0, 2 * Math.PI);
+        ctx.fillStyle = '#f4d03f';
+        ctx.globalAlpha = 0.12;
+        ctx.fill();
+        ctx.globalAlpha = 0.3;
+        ctx.strokeStyle = '#d4a017';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        
+        // draw He shell
+        ctx.beginPath();
+        ctx.arc(cx, cy, 100, 0, 2 * Math.PI);
+        ctx.fillStyle = '#ecf0f1';
+        ctx.globalAlpha = 0.15;
+        ctx.fill();
+        ctx.globalAlpha = 0.4;
+        ctx.strokeStyle = '#7f8c8d';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        
+        // draw intermediate shells based on stage
+        const shells = stage.shellLabels || ['H', 'He', 'C'];
+        let radius = 75;
+        const shellColors = {
+          'C': '#e67e22',
+          'Ne': '#f39c12',
+          'O': '#3498db',
+          'Si': '#9b59b6'
+        };
+        
+        for (let i = shells.length - 1; i >= 2; i--) {
+          const shell = shells[i];
+          if (shellColors[shell]) {
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+            ctx.fillStyle = shellColors[shell];
+            ctx.globalAlpha = 0.2;
+            ctx.fill();
+            ctx.globalAlpha = 0.5;
+            ctx.strokeStyle = shellColors[shell];
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+            radius -= 12;
+          }
+        }
+        
+        // draw core
+        ctx.beginPath();
+        ctx.arc(cx, cy, 35, 0, 2 * Math.PI);
+        ctx.fillStyle = stage.coreColor;
+        ctx.globalAlpha = 0.5;
+        ctx.fill();
+        ctx.globalAlpha = 0.8;
+        ctx.strokeStyle = stage.color;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.globalAlpha = 1.0;
+        
+        // core label
+        ctx.font = 'bold 13px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#1a1e24';
+        ctx.textAlign = 'center';
+        ctx.fillText(stage.coreLabel, cx, cy + 5);
+        
+        // temperature label
+        ctx.font = '11px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#3a404a';
+        ctx.fillText(`T ${stage.temp}`, cx, cy - 55);
+        
+        // shell labels
+        ctx.font = '10px "IBM Plex Mono", monospace';
+        ctx.fillStyle = '#3a404a';
+        ctx.textAlign = 'center';
+        
+        if (stage.shellLabels.includes('H')) {
+          ctx.fillText('H', cx + 120, cy - 10);
+        }
+        if (stage.shellLabels.includes('He')) {
+          ctx.fillText('He', cx + 85, cy - 10);
+        }
+        if (stage.shellLabels.includes('C')) {
+          ctx.fillText('C', cx + 55, cy - 5);
+        }
+        if (stage.shellLabels.includes('Ne')) {
+          ctx.fillText('Ne', cx + 40, cy - 5);
+        }
+        if (stage.shellLabels.includes('O')) {
+          ctx.fillText('O', cx + 25, cy);
+        }
+        
+        // burning zone indicator
+        ctx.beginPath();
+        ctx.arc(cx, cy, 45, 0, 2 * Math.PI);
+        ctx.strokeStyle = '#8b3a3a';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+      
+      function drawOnionStructure(context, cx, cy) {
+        const layers = [
+          { radius: 180, color: '#f4d03f', alpha: 0.1, label: 'H', textColor: '#d4a017' },
+          { radius: 150, color: '#ecf0f1', alpha: 0.15, label: 'He', textColor: '#7f8c8d' },
+          { radius: 120, color: '#e67e22', alpha: 0.2, label: 'C', textColor: '#d35400' },
+          { radius: 95, color: '#f39c12', alpha: 0.2, label: 'Ne', textColor: '#e67e22' },
+          { radius: 72, color: '#3498db', alpha: 0.2, label: 'O', textColor: '#2980b9' },
+          { radius: 50, color: '#9b59b6', alpha: 0.25, label: 'Si', textColor: '#8e44ad' },
+          { radius: 28, color: '#1a1e24', alpha: 0.5, label: 'Fe', textColor: '#1a1e24' }
+        ];
+        
+        layers.forEach(layer => {
+          context.beginPath();
+          context.arc(cx, cy, layer.radius, 0, 2 * Math.PI);
+          context.fillStyle = layer.color;
+          context.globalAlpha = layer.alpha;
+          context.fill();
+          context.globalAlpha = 0.5;
+          context.strokeStyle = layer.color;
+          context.lineWidth = 1;
+          context.stroke();
+        });
+        
+        context.globalAlpha = 1.0;
+        context.font = '11px "IBM Plex Mono", monospace';
+        context.textAlign = 'center';
+        
+        layers.forEach(layer => {
+          context.fillStyle = layer.textColor;
+          context.fillText(layer.label, cx + layer.radius - 10, cy - 5);
+        });
+        
+        context.font = 'bold 13px "IBM Plex Mono", monospace';
+        context.fillStyle = '#fcfbf7';
+        context.fillText('Fe', cx, cy + 5);
+        
+        context.font = '10px "IBM Plex Mono", monospace';
+        context.fillStyle = '#3a404a';
+        context.fillText('цибулинна структура', cx, cy - 100);
+      }
+      
+      function drawStaticOnion() {
+        onionCtx.clearRect(0, 0, 800, 400);
+        drawOnionStructure(onionCtx, 400, 200);
+        
+        // add burning notation
+        onionCtx.font = '9px "IBM Plex Mono", monospace';
+        onionCtx.fillStyle = '#3a404a';
+        onionCtx.textAlign = 'center';
+        onionCtx.fillText('горіння H', 400, 60);
+        onionCtx.fillText('горіння He', 400, 85);
+        onionCtx.fillText('горіння C', 400, 110);
+        onionCtx.fillText('горіння Ne', 400, 135);
+        onionCtx.fillText('горіння O', 400, 160);
+        onionCtx.fillText('горіння Si', 400, 185);
+        onionCtx.fillText('ядро Fe', 400, 215);
+      }
+      
+      // stage button handlers
+      const buttons = document.querySelectorAll('.stage-btn');
+      buttons.forEach(btn => {
+        btn.addEventListener('click', function() {
+          buttons.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const stageId = this.dataset.stage;
+          currentStage = stageId;
+          
+          drawStage(stageId);
+          
+          // scroll illustration into view smoothly
+          document.getElementById('illustrationContainer').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'nearest' 
+          });
+        });
+      });
+      
+      // initialize
+      drawStage('carbon');
+      drawStaticOnion();
+      
+      // handle potential resize
+      window.addEventListener('resize', function() {
+        drawStage(currentStage);
+        drawStaticOnion();
+      });
+    })();
+  </script>
+</body>
+</html>
